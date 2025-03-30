@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>戏曲信息可视化-戏曲剧种</title>
+    <!-- 引入我们样式初始化文件 -->
+    <link rel="stylesheet" href="./css/base.css">
+    <!-- 引入公共的样式文件 -->
+    <link rel="stylesheet" href="./css/common.css">
+    <!-- 引入type文件 -->
+    <link rel="stylesheet" href="./css/type.css">
+    <!-- 引入 ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="nav">
+        <ul>
+            <li><a href="index.html">首页</a></li>
+            <li><a href="history.html">发展历程</a></li>
+            <li><a href="role.html">戏曲行当</a></li>
+            <li><a href="face.html">戏曲脸谱</a></li>
+            <li><a href="type.html">戏曲剧种</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- 剧种数量地图 -->
+        <div class="mapAndIntroduce">
+            <div id="map"></div>
+            <div id="introduce">
+                <p>中国戏曲历史悠久，剧种种类繁多，据不完全统计，我国各民族地区地戏曲剧种约有三百六十多种，传统剧目数以万计。从全国300多个戏曲剧种中脱颖而出，近半个世纪以来，流布最广泛，观众群最多的京剧、豫剧、越剧，被官方和戏迷友人们誉为中国戏曲三鼎甲。被称为中国五大戏曲剧种的有：京剧、豫剧、越剧、评剧、黄梅戏。</p>
+            </div>
+        </div>
+
+
+        <!-- 五大剧种 -->
+        <div class="five-type">
+            <div class="box" data-index="1" data-title="京剧" onclick="showDetail(1)">
+                <div class="image"><img src="./images/jing.png" alt="京剧"></div>
+                <div class="text">
+                    <h1>京剧</h1>
+                </div>
+            </div>
+            <div class="box" data-index="2" data-title="越剧" onclick="showDetail(2)">
+                <div class="image"><img src="./images/yue.png" alt="越剧"></div>
+                <div class="text">
+                    <h1>越剧</h1>
+                </div>
+            </div>
+            <div class="box" data-index="3" data-title="黄梅戏" onclick="showDetail(3)">
+                <div class="image"><img src="./images/huang.png" alt="黄梅戏"></div>
+                <div class="text">
+                    <h1>黄梅戏</h1>
+                </div>
+            </div>
+            <div class="box" data-index="4" data-title="评剧" onclick="showDetail(4)">
+                <div class="image"><img src="./images/ping.png" alt="评剧"></div>
+                <div class="text">
+                    <h1>评剧</h1>
+                </div>
+            </div>
+            <div class="box" data-index="5" data-title="豫剧" onclick="showDetail(5)">
+                <div class="image"><img src="./images/yu.png" alt="豫剧"></div>
+                <div class="text">
+                    <h1>豫剧</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- 五大剧种的详细介绍 -->
+        <div class="detail">
+            <!-- 剧种名称 -->
+            <div class="title">
+                <h1 id="detail-title">标题</h1>
+            </div>
+            <!-- 起源+简要介绍 -->
+            <div class="origin">
+                <div class="image"><img id="origin-image" alt="Origin Image"></div>
+            </div>
+            <div class="brief-intro" id="brief-intro">
+                <p></p>
+            </div>
+            <!-- 发展概述 -->
+            <div class="develop"></div>
+            <!-- 乐器 -->
+            <div class="music-introduction" id="music-introduction"></div>
+            <div class="picture">
+                <div class="slidershow" id="music-slider"></div>
+            </div>
+            <!-- 舞台道具 -->
+            <div class="tool"></div>
+            <!-- 图表 -->
+            <div class="chart01" id="chart01"></div>
+            <div class="chart02"></div>
+        </div>
+
+        <!-- 优秀剧目 -->
+        <div class="scroll-container">
+            <div class="scroll-content" id="scrollContent"></div>
+        </div>
+    </div>
+
+    <script src="./js/type.js"></script>
+    <script src="./js/type-map.js"></script>
+</body>
+</html>
