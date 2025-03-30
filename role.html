@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>戏曲信息可视化-戏曲行当</title>
+    <!-- 引入我们样式初始化文件 -->
+    <link rel="stylesheet" href="./css/base.css">
+    <!-- 引入公共的样式文件 -->
+    <link rel="stylesheet" href="./css/common.css">
+    <!-- 引入role文件 -->
+     <link rel="stylesheet" href="./css/role.css">
+     <!-- 引入 ECharts -->
+    <script src="https://cdn.staticfile.org/echarts/5.4.0/echarts.min.js"></script>
+</head>
+<body>
+
+     <!-- 搜索导航 start -->
+     <nav class="nav">
+        <ul>
+            <li><a href="index.html">首页</a></li>
+            <li><a href="history.html">发展历程</a></li>
+            <li><a href="role.html">戏曲行当</a></li>
+            <li><a href="face.html">戏曲脸谱</a></li>
+            <li><a href="type.html">戏曲剧种</a></li>
+        </ul> 
+     </nav>
+    <!-- 搜索导航 end -->
+
+    <!-- 核心可视化区域 start -->
+    <div class="container">
+        <div id="tree-container"></div>
+        
+        <!-- 内容信息 -->
+         <div class="w">
+            <!-- 动态内容区 start -->
+        <div class="content-panels">
+            <!-- 特征说明 -->
+            <div id="features-content" class="content-card active">
+                <h3 class="section-title">行当特征</h3>
+                <div class="feature-text card-content"></div>
+            </div>
+        
+            <!-- 图库 -->
+             <div class="picture">
+                <!-- 服饰图库 -->
+            <div id="costume-gallery" class="content-card">
+                <h3 class="section-title">典型服饰</h3>
+                <div class="gallery-grid card-content"></div>
+            </div>
+        
+            <!-- 妆容图库 -->
+            <div id="makeup-gallery" class="content-card">
+                <h3 class="section-title">妆容样式</h3>
+                <div class="gallery-grid card-content"></div>
+            </div>
+             </div>
+        
+            <!-- 视频播放器 -->
+            <div id="video-player" class="content-card">
+                <h3 class="section-title">表演欣赏</h3>
+                <div class="video-wrapper card-content"></div>
+            </div>
+        
+            <!-- 演员画廊 -->
+            <div id="actors-gallery" class="content-card">
+                <h3 class="section-title">代表演员</h3>
+                <div class="actors-grid card-content"></div>
+            </div>
+        </div>
+         <!-- 动态内容区 end -->
+
+        <!-- 图表 -->
+        <div id="chart-section" class="content-section">
+            <!-- 新增双图表容器 -->
+            <div class="dual-charts">
+                <div class="chart-container">
+                    <h3 class="chart-title">行业发展趋势</h3>
+                     <div id="trendChart" class="chart"></div>
+                </div>
+                <div class="chart-container">
+                     <h3 class="chart-title">从业人员分布</h3>
+                     <div id="distributionChart" class="chart"></div>
+                </div>
+            </div>
+        </div>
+         </div>
+
+    </div>
+    <!-- 核心可视化区域 start -->
+
+    <script src="./js/role.js"></script>
+    
+</body>
+</html>

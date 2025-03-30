@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>戏曲信息可视化-戏曲脸谱</title>
+    <!-- 引入我们样式初始化文件 -->
+    <link rel="stylesheet" href="./css/base.css">
+    <!-- 引入公共的样式文件 -->
+    <link rel="stylesheet" href="./css/common.css">
+    <!-- 引入face文件 -->
+     <link rel="stylesheet" href="./css/face.css">
+</head>
+<body>
+    <!-- 搜索导航 start -->
+    <nav class="nav">
+        <ul>
+            <li><a href="index.html">首页</a></li>
+            <li><a href="history.html">发展历程</a></li>
+            <li><a href="role.html">戏曲行当</a></li>
+            <li><a href="face.html">戏曲脸谱</a></li>
+            <li><a href="type.html">戏曲剧种</a></li>
+        </ul>
+     </nav>
+    <!-- 搜索导航 end -->
+
+    
+    <div class="container">
+        <!-- 基础五官卡片 -->
+        <div class="card card1">
+            <div class="header">
+                <div class="title">基础五官</div>
+            </div>
+            <div class="content">
+                <img src="./images/face/baseface.png" alt="" style="height: 100%;width: 100%;">
+            </div>
+        </div>
+
+        <!-- 介绍卡片 -->
+        <div class="card card2">
+            <div class="header">
+                <div class="title">介绍</div>
+            </div>
+
+            <div class="content">
+                脸谱的结构，包括眉子、眼窝、鼻窝、嘴窝、脑门、脸蛋等部位。其中以眉、眼窝为主体。提到脸谱，首先是眉是勾的直眉、尖眉，还是其他眉。然后是眼窝，直眉一般是直眼窝，尖眉也就是尖眼窝了。鼻窝也配合着眼窝。勾完了眉、眼和鼻窝后，脸谱的大局就奠定了，随着就是分开脑门和脸蛋。露嘴的还得勾嘴。脑门以及脸蛋上的花纹主要是为了美观。
+                按照人物的性格，素净简单的脸谱为状素沉着，花纹复杂的为鲁莽凶猛。按照结构，脸谱的格式有整脸、三块瓦脸、花三块瓦脸、碎脸、元宝脸、老连、蝴蝶脸、十字门脸、僧道脸、小妖脸、歪脸等。
+                整脸只勾眉子，把整脸加上眼窝鼻窝就成了三块瓦脸，眉、眼和鼻窝复杂的为花三块瓦脸，比花三块瓦脸更复杂的为碎脸，这些变化都是有迹可循的。从抹脸中的大白脸起，经过元宝脸、腰子粉脸、豆腐块粉脸，知道枣核粉脸，脸上涂白粉的面积逐步缩小，在人物的性格上也从奸雄到机智。中间有奸悄，从净角到丑角脸谱显出了连续的过渡性。
+            </div>
+        </div>
+
+        <!-- 颜色卡片 -->
+        <div class="card card3">
+            <div class="header">
+                <div class="title">颜色</div>
+            </div>
+            <div class="color-tabs">
+                <div class="color-tab active" data-color="red" style="background-color: #f20303;"></div>
+                <div class="color-tab" data-color="purple" style="background-color: #c521c5;"></div>
+                <div class="color-tab" data-color="pink" style="background-color: #ffc0cb;"></div>
+                <div class="color-tab" data-color="yellow" style="background-color: #ecec2e;"></div>
+                <div class="color-tab" data-color="green" style="background-color: #05e105;"></div>
+                <div class="color-tab" data-color="blue" style="background-color: #1d1de2;"></div>
+                <div class="color-tab" data-color="gold" style="background-color: #FFD700;"></div>
+                <div class="color-tab" data-color="white" style="background-color: #ffffff;"></div>
+                <div class="color-tab" data-color="black" style="background-color: #000000;"></div>
+            </div>
+            <div id="colorContent">
+                <div class="content-img" id="colorImg">红色脸谱示例</div>
+                <div class="content-text" id="colorDesc">红色一般用来表示耿直、忠义、有血性，多表现正面角色。忠勇良将、有道神仙勾画红色脸谱，如关羽、姜维等。</div>
+            </div>
+        </div>
+
+        <!-- 谱系结构卡片 -->
+        <div class="card card5">
+            <div class="header">
+                <div class="title">谱式结构</div>
+            </div>
+            <div class="spectrum-container">
+                <div class="tab-sidebar">
+                    <div class="tab-list">
+                        <button class="tab active" data-tab="wholeFace">整脸</button>
+                        <button class="tab" data-tab="threeTiles">三块瓦脸</button>
+                        <button class="tab" data-tab="flowerThreeTiles">花三块脸</button>
+                        <button class="tab" data-tab="sixDivisions">六分脸</button>
+                        <button class="tab" data-tab="crossGate">十字门脸</button>
+                        <button class="tab" data-tab="shatteredFlower">碎花脸</button>
+                        <button class="tab" data-tab="yuanbaoFace">元宝脸</button>
+                        <button class="tab" data-tab="monkTaoist">僧道脸</button>
+                        <button class="tab" data-tab="crookedFace">歪脸</button>
+                        <button class="tab" data-tab="eunuchFace">太监脸</button>
+                        <button class="tab" data-tab="godFace">神仙脸</button>
+                        <button class="tab" data-tab="clownFace">丑角脸</button>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <div class="content-img" id="spectrumImg">整脸示例</div>
+                    <div class="content-text" id="spectrumDesc">
+                        整脸：整个面部涂一种颜色为主色，再勾眉、眼、鼻、口的轮廓，然后再勾画整个面部肌肉的纹理，表现出任务的神色和气质。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/face.js"></script>
+
+</body>
+</html>

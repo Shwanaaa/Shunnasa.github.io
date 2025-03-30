@@ -1,0 +1,463 @@
+#map {
+    position: relative;
+    width: 1080px;
+    height: calc(100vh - 80px);
+    /* 100%视口高度减去导航栏高度 */
+    margin-top: 80px;
+    /* 为导航栏留出空间 */
+    margin: 0 auto;
+    background-color: aqua;
+}
+
+.five-type {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.box {
+    display: grid;
+    grid-template-rows: 2fr 1fr; /* 分成三等分，上面三分之二，下面三分之一 */
+    width: 250px;
+    height: 300px;
+    border: 1px solid #000;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer; /* 模拟按钮的鼠标样式 */
+}
+
+.box .image {
+    grid-row: 1 / 2; /* 占据上面的三分之二 */
+    background-color: lightblue; /* 图片区域的背景色 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* 隐藏超出容器的部分 */
+}
+
+.box .image img {
+    width: 100%; /* 图片宽度为容器宽度 */
+    height: auto; /* 图片高度自动调整 */
+    object-fit: cover; /* 图片覆盖容器，保持宽高比 */
+}
+
+.box .text {
+    grid-row: 2 / 3; /* 占据下面的三分之一 */
+    background-color: lightgreen; /* 文字区域的背景色 */
+    display: flex; /* 启用flex布局 */
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    /* font-size: 14px; */
+    padding: 10px; /* 添加内边距以避免文字紧贴边缘 */
+}
+.box1 {
+    grid-column: 1/2;
+    grid-row: 1/2;
+}
+
+.box2 {
+    grid-column: 3/4;
+    grid-row: 1/2;
+}
+
+.box3 {
+    grid-column: 5/6;
+    grid-row: 1/2;
+}
+
+.box4 {
+    grid-column: 2/3;
+    grid-row: 2/3;
+}
+
+.box5 {
+    grid-column: 4/5;
+    grid-row: 2/3;
+}
+
+.detail {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(16, 1fr);
+    height: 1960px;
+    margin-top: 20px;
+    row-gap: 20px;
+}
+
+.detail .title {
+    grid-area: 1 / 1 / 2 / 4;
+    background-color: pink;
+    display: flex; /* 启用flex布局 */
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    height: 100%; /* 使flexbox的对齐生效 */
+    font-size: 24px;
+}
+/* 起源地点 */
+.origin {
+    grid-area: 2 / 1 / 4 / 4; /* 从第2行到第4行，从第1列到第4列 */
+    background-color: pink;
+    display: flex; /* 启用flex布局 */
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    position: relative; /* 使子元素可以绝对定位 */
+}
+
+.origin .image img {
+    max-width: 100%; /* 图片最大宽度为容器宽度 */
+    max-height: 100%; /* 图片最大高度为容器高度 */
+    object-fit: contain; /* 图片适应容器，保持宽高比 */
+}
+
+/* 起源简述 */
+.brief-intro {
+    grid-area: 2 / 4 / 4 / 13;
+    background-color: palegoldenrod;
+}
+
+/* 发展概要 start*/
+.develop {
+    grid-area: 4 / 1 / 9 / 13;
+    /* background-color: pink; */
+
+    position: relative;
+    width: 1350px;
+    height: 337.5px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.develop::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-color: rgba(12, 12, 12, 0.5);
+    transform: translateY(-50%);
+    z-index: -1;
+}
+
+.develop .boxx {
+    position: relative;
+    width: 500px;;
+    height: 337.5px; /*盒子高度*/
+    margin-right: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.develop .top,.bottom {
+    position: relative;
+    width: 100%;
+    height: 843.75px; /*盒子高度的40%*/
+    border-radius: 15px;
+    color: rgb(90, 90, 90);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.develop .top {
+    justify-content: flex-end;
+}
+
+.develop .bottom {
+    justify-content: flex-start;
+}
+
+.develop .center {
+    position: relative;
+    width: 100%;
+    height:50.625px; /*盒子高度的15%*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.develop .center span {
+    width: 120px;
+    border-radius: 10px;
+    text-align: center;
+    font: 900 24px '';
+    line-height: 50px;
+    background-color: #e59e9e;
+}
+/* 发展概要 end*/
+
+.music-introduction {
+    grid-area: 10 / 1 / 12 / 5;
+    background-color: pink;
+}
+
+/* 乐器图片 start */
+
+.picture {
+    grid-area: 8 / 1 / 10 / 5;
+    background-color: pink;
+}
+
+.slidershow {
+    position: relative;
+    /* width: 449.99px;
+    height: 337.5px; */
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.navigation{
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    width: 100%; /* 确保导航栏宽度与slidershow相同 */
+    justify-content: center; /* 水平居中对齐  */
+    
+}
+.bar {
+    width: 50px;
+    height: 10px;
+    border: 2px solid #fff;
+    margin: 6px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+.bar:hover {
+    background: #fff;
+}
+
+input[name="r"] {
+    position: absolute;
+    visibility: hidden;
+}
+
+.slides {
+    width: 500%;
+    height: 100%;
+    display: flex;
+}
+
+.slide {
+    width: 20%;
+    transition: 0.6s;
+}
+.slide img {
+    width: 100%;
+    height: 100%;
+}
+
+#r1:checked ~ .s1{
+    margin-left: 0;
+}
+#r2:checked ~ .s1{
+    margin-left: -20%;
+}
+#r3:checked ~ .s1{
+    margin-left: -40%;
+}
+#r4:checked ~ .s1{
+    margin-left: -60%;
+}
+#r5:checked ~ .s1{
+    margin-left: -80%;
+}
+
+/* 乐器图片 end */
+
+/* 舞台道具图片 start */
+.tool {
+    grid-area: 8 / 5 / 12 / 13;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: visible; /* 改为visible让滚动条可见 */
+    width: 100%; /* 确保宽度填满网格区域 */
+}
+
+.tools-title {
+    text-align: center;
+    color: #8B0000;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.tools-gallery {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; /* 改为auto以在需要时才显示滚动条 */
+    padding: 15px 10px 25px;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #8B0000 #f5f5f5; /* Firefox */
+    width: 100%; /* 确保宽度填满容器 */
+    min-width: 100%; /* 防止内容不足时缩小 */
+    
+    /* 强制Webkit浏览器显示滚动条 */
+    &::-webkit-scrollbar {
+        height: 10px; /* 增加高度使更明显 */
+        display: block !important;
+    }
+    
+    /* 确保卡片总宽度超出容器 */
+    .tool-card {
+        min-width: 220px; /* 适当增加卡片宽度 */
+        flex: 0 0 auto; /* 防止卡片伸缩 */
+    }
+}
+
+/* 自定义滚动条样式 - Webkit浏览器 */
+.tools-gallery::-webkit-scrollbar {
+    height: 8px;
+}
+
+.tools-gallery::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+.tools-gallery::-webkit-scrollbar-thumb {
+    background-color: #8B0000;
+    border-radius: 4px;
+    border: 2px solid #f5f5f5;
+}
+
+.tools-gallery::-webkit-scrollbar-thumb:hover {
+    background-color: #A52A2A;
+}
+
+.tool-card {
+    min-width: 210px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+    flex-shrink: 0; /* 防止卡片被压缩 */
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+}
+
+.tool-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+.tool-info {
+    padding: 15px;
+}
+
+.tool-info h3 {
+    color: #5C3317;
+    margin-bottom: 8px;
+}
+
+.tool-info p {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* 添加占位符样式 */
+.tool-card.placeholder {
+    background: #f9f9f9;
+    border: 1px dashed #ccc;
+}
+
+.tool-image.placeholder {
+    background: #eee;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+}
+
+/* 舞台道具图片 end */
+
+.chart01 {
+    grid-area: 12 / 1 / 17 / 7;
+    background-color: palegoldenrod;
+}
+
+.chart02 {
+    grid-area: 12 / 7 / 17 / 13;
+    background-color: paleturquoise;
+}
+
+/* 优秀剧目 */
+/* 在type.css末尾添加 */
+.scroll-container {
+    height: 380px;
+    overflow: hidden;
+    padding: 30px 0;
+    background: linear-gradient(to bottom, #d4a76a, #f9f2e8);
+    position: relative;
+    margin-top: 20px;
+}
+
+.scroll-container::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #c8161d, transparent);
+    box-shadow: 0 0 10px #c8161d;
+}
+
+.scroll-content {
+    display: flex;
+    gap: 25px;
+    transition: transform 0.5s ease-out; /* 平滑过渡效果 */
+    will-change: transform; /* 优化性能 */
+}
+
+.scroll-item {
+    flex: 0 0 220px; /* 与JS中的itemWidth一致 */
+    height: 320px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px rgba(139, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #c8161d;
+    transition: all 0.4s ease;
+}
+
+.scroll-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.opera-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background: rgba(200, 22, 29, 0.8);
+    color: #ffd700;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.scroll-item:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 12px 24px rgba(139, 0, 0, 0.5);
+    z-index: 10;
+}
+
+.scroll-item:hover .opera-info {
+    transform: translateY(0);
+}

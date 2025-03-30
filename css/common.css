@@ -1,0 +1,44 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+.w {
+    margin: 0 auto;
+    width: 1350px;
+    font-size: 18px;
+}
+  nav {
+    background-color: #a61b29;
+    overflow: hidden;
+    height: 80px;
+    /* 导航栏高度 */
+    position: fixed;
+    /* 固定导航栏 */
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    /* 确保导航栏在最上层 */
+  }
+  nav ul {
+    float: right;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  nav ul li {
+    height: 80px;
+     display: inline-block; /* 确保li元素是行内块级元素 */
+  }
+  nav ul li a {
+    display: block;
+    height: 80px;
+    padding: 22px;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: none;
+  }
+  nav ul li a:hover {
+    height: 80px;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
