@@ -26,7 +26,7 @@ body {
     width: 60%;
     margin-top: 100px;
     height: 400px;
-    background-color: #e6f7ff;
+    background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     margin-bottom: 30px;
@@ -36,10 +36,14 @@ body {
     width: 38%;
     margin-top: 100px;
     height: 400px;
-    background-color: #e6f7ff;
+    background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     margin-bottom: 30px;
+    padding: 30px;
+    font-size: large;
+    display: flex;
+    align-items: center;
 }
 
 /* 五大剧种网格 */
@@ -87,7 +91,7 @@ body {
 }
 
 .box .text h1 {
-    font-size: 18px;
+    font-size: large;
     font-weight: 600;
     color: #1d1d1f;
 }
@@ -110,7 +114,7 @@ body {
 }
 
 .title h1 {
-    font-size: 28px;
+    font-size: large;
     font-weight: 600;
     color: #1d1d1f;
 }
@@ -144,10 +148,14 @@ body {
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    font-size: large;
+    padding: 30px;
+    display: flex;
+    align-items: center;
 }
 
 .brief-intro p {
-    font-size: 16px;
+    font-size: large;
     line-height: 1.8;
     color: #4a4a4c;
 }
@@ -158,14 +166,15 @@ body {
     grid-row: 3;
     position: relative;
     width: 100%;
-    height: 337.5px;
+    height: 700px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    /* background-color: white; */
 }
 
- .develop::after {
+.develop::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -180,7 +189,7 @@ body {
 .develop .boxx {
     position: relative;
     width: 500px;
-    height: 337.5px;
+    height: 700px;
     /*盒子高度*/
     margin-right: 50px;
     display: flex;
@@ -200,7 +209,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin: 30px 0;
+    margin: 50px 0;
 }
 
 .develop .top {
@@ -239,17 +248,20 @@ body {
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    font-size: large;
 }
 
 .music-introduction h2 {
-    font-size: 20px;
+    font-size: large;
     font-weight: 600;
     margin-bottom: 15px;
     color: #1d1d1f;
 }
 
 .music-introduction p {
-    font-size: 16px;
+    font-size: large;
     line-height: 1.8;
     color: #4a4a4c;
 }
@@ -266,7 +278,8 @@ body {
 
 .slidershow {
     width: 100%;
-    height: 300px; /* 增加高度以更好显示单张图片 */
+    height: 300px;
+    /* 增加高度以更好显示单张图片 */
     overflow: hidden;
     position: relative;
 }
@@ -401,7 +414,7 @@ body {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    height: 300px;
+    height: 600px;
 }
 
 .chart02 {
@@ -411,7 +424,7 @@ body {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    height: 300px;
+    height: 600px;
 }
 
 /* 优秀剧目 */
