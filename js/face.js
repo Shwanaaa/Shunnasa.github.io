@@ -1,4 +1,34 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // 颜色对应的图片链接数组
+    const colorImages = {
+        red: "./images/face/1.png",
+        purple: "./images/face/purple.png",
+        pink: "./images/face/pink.png",
+        yellow: "./images/face/yellow.png",
+        green: "./images/face/green.png",
+        blue: "./images/face/bule.png",
+        gold: "./images/face/gold.png",
+        white: "./images/face/white.png",
+        black: "./images/face/black.png"
+    };
+
+    // 谱系结构对应的图片链接数组
+    const spectrumImages = {
+        wholeFace: "./images/face/1.png",
+        threeTiles: "./images/face/2.png",
+        flowerThreeTiles: "./images/face/3.png",
+        sixDivisions: "./images/face/4.png",
+        crossGate: "./images/face/5.png",
+        shatteredFlower: "./images/face/6.png",
+        yuanbaoFace: "./images/face/7.png",
+        xiangxingFace: "./images/face/8.png",
+        monkTaoist: "./images/face/9.png",
+        crookedFace: "./images/face/10.png",
+        eunuchFace: "./images/face/11.png",
+        godFace: "./images/face/12.png",
+        clownFace: "./images/face/13.png"
+    };
+
     // 颜色tab切换
     const colorTabs = document.querySelectorAll('.color-tab');
     const colorImg = document.getElementById('colorImg');
@@ -22,7 +52,10 @@ document.addEventListener('DOMContentLoaded', function () {
             this.classList.add('active');
             const color = this.getAttribute('data-color');
             colorDesc.textContent = colorDescriptions[color];
-            colorImg.textContent = `${color}脸谱示例`;
+
+            // 动态更新图片
+            colorImg.src = colorImages[color];
+            colorImg.alt = `${color}脸谱示例`;
         });
     });
 
@@ -39,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
         crossGate: "十字门脸：由三块瓦脸演变而来，用抽象的手法减去两颊主色，仅以自鼻端至脑门的色条表示人物面部主色。",
         shatteredFlower: "碎花脸：由花三块瓦脸演变而来，减去两颊主色，只留正额主色，然后在脸上各个部位增加复杂复杂的辅色和复杂的纹理。",
         yuanbaoFace: "元宝脸：由三块瓦脸演变而来，脑门保留原来的肤色或者揉微红色，两颊涂白，形成元宝形式，用以表示身份不高的人物。",
+        xiangxingFace:"象形脸：由'六分脸'演变而来，以'象'形来表示人物的形象，象形的大小和颜色都有变化。象形的大小和颜色都有变化。象形的大小和颜色都有变化。",
         monkTaoist: "僧道脸：它的特征是腰子眼窝、花鼻窝、花嘴岔，脑门还会勾一个红色的舍利珠圆光，或是九个点，表示其要进入佛门接受戒律。所用颜色多为白色、红色、黄色、蓝色等，但以白色为主，髯口处挂上'虬'和'髯'字，还会使用光嘴岔。",
         crookedFace: "歪脸：此谱类似'碎花脸' '三块脸'，只是勾嘴、眼时线条不对称，时无关错位，呈歪状。色彩因人而异，多种多样。表现相貌丑陋歪嘴眼斜的坏人形象。",
         eunuchFace: "太监脸：专用来表现擅权害人的宦官，色彩只有红白两种，形式近似'整脸'与'三块瓦脸'，只是夸张太监的特点；脑门勾个圆光，以示其阉割净身，自诩为佛门弟子。脑门和两颊的胖纹，表现出养尊处优的神态。",
@@ -52,7 +86,11 @@ document.addEventListener('DOMContentLoaded', function () {
             this.classList.add('active');
             const tabId = this.getAttribute('data-tab');
             spectrumDesc.textContent = spectrumDescriptions[tabId];
-            spectrumImg.textContent = `${tabId}示例`;
+
+            // 动态更新图片
+            spectrumImg.src = spectrumImages[tabId];
+            spectrumImg.alt = `${tabId}示例`;
         });
     });
 });
+  
