@@ -1,12 +1,14 @@
 /* 图片轮播容器 */
 .slideshow-container {
     position: relative;
-    width: 100%;
+    width: 85%;
     height: calc(100vh - 80px);
     /* 100%视口高度减去导航栏高度 */
     margin-top: 80px;
     /* 为导航栏留出空间 */
     overflow: hidden;
+    display: flex;
+    margin: 80px 7.5% 0 7.5%;
   }
   /* 幻灯片样式 */
   .mySlides {
@@ -38,7 +40,7 @@
 
   /* 首页美化 */
   .content {
-    max-width: 100%;
+    max-width: 85%;
     margin: 0 auto;
   }
   
@@ -47,6 +49,7 @@
     background-color: #fff;
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    height: 400px;
   }
   
   .item .mainContent {
