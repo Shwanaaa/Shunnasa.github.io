@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     // 颜色对应的图片链接数组
     const colorImages = {
-        red: "./images/face/1.png",
+        red: "./images/face/red.png",
         purple: "./images/face/purple.png",
         pink: "./images/face/pink.png",
         yellow: "./images/face/yellow.png",
