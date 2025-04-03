@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>戏曲研究员 AI 聊天</title>
+    <!-- 引入我们样式初始化文件 -->
+    <link rel="stylesheet" href="./css/base.css">
+    <!-- 引入公共的样式文件 -->
+    <link rel="stylesheet" href="./css/common.css">
+    <!-- 引入AIchat文件 -->
+    <link rel="stylesheet" href="./css/AIchat.css">
+<body>
+    <!-- 导航栏 -->
+    <nav class="nav">
+        <ul>
+            <li><a href="index.html">首页</a></li>
+            <li><a href="history.html">发展历程</a></li>
+            <li><a href="role.html">戏曲行当</a></li>
+            <li><a href="face.html">戏曲脸谱</a></li>
+            <li><a href="type.html">戏曲剧种</a></li>
+            <li><a href="../4C/traditionalopera/14.html">AI助手</a></li>
+        </ul>
+    </nav>
+
+    <div class="chat-container">
+        <div class="chat-header">戏曲研究员 AI</div>
+        <div id="chat-messages" class="chat-messages"></div>
+        <div class="chat-input">
+            <input type="text" id="message-input" placeholder="请输入您的问题..." />
+            <button id="send-button">发送</button>
+        </div>
+    </div>
+
+    <script src="./js/AIchat.js"></script>
+</body>
+
+</html>
