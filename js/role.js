@@ -362,6 +362,7 @@ function initLaosheng() {
     const laoshengNode = Data.children[0].children[0];
     
     // 更新所有板块
+    updateRoleTitle(laoshengNode);
     updateFeatures(laoshengNode);
     updateCostumeGallery(laoshengNode);
     updateMakeupGallery(laoshengNode);
@@ -408,9 +409,16 @@ chart.on('click', params => {
    updateMakeupGallery(data);
    updateVideoPlayer(data);
    updateActorsGallery(data);
-
+    updateRoleTitle(data);
 });
 
+//标题更新
+function updateRoleTitle(data) {
+    const titleEl = document.getElementById('current-role-title');
+    titleEl.textContent = data.name && data.feature 
+        ? `${data.name} - ${data.feature}`
+        : '戏曲行当';
+}
 
 // 特征说明更新
 function updateFeatures(data) {
