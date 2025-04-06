@@ -11,7 +11,6 @@ const chartManager = {
         const option = {
             title: {
                 text: `${operaType}流派层次结构`,
-                subtext: `数据来源：${operaType}流派分类`,
                 left: 'center',
                 textStyle: {
                     fontSize: 18,
@@ -20,16 +19,19 @@ const chartManager = {
             },
             tooltip: {
                 trigger: 'item',
-                formatter: '{b}<br/>权重值: {c}'
+                formatter: function(params) {
+                    return params.name; 
+                }
             },
             series: {
                 type: 'sunburst',
                 data: data.children,
-                radius: [0, '90%'],
+                radius: ["10%", '80%'],
+                center: ['50%', '52%'],
                 label: {
                     rotate: 'radial',
                     color: '#333',
-                    fontSize: 18
+                    fontSize: 14
                 },
                 levels: [
                     {},
@@ -44,15 +46,15 @@ const chartManager = {
                         }
                     },
                     {
-                        r0: '40%',
-                        r: '80%',
+                        r0: '20%',
+                        r: '70%',
                         label: {
                             align: 'right'
                         }
                     },
                     {
-                        r0: '80%',
-                        r: '85%',
+                        r0: '55%',
+                        r: '80%',
                         label: {
                             position: 'outside',
                             padding: 3,
@@ -708,6 +710,10 @@ function updateTimeline(index) {
     const timelineItems = typedata[index].timeline;
     const timelineContainer = document.querySelector('.develop');
     timelineContainer.innerHTML = ''; // 清空现有内容
+
+    // 动态计算高度：每个节点约200px + 额外间距
+    const dynamicHeight = timelineItems.length * 120 + 60;
+    timelineContainer.style.height = `${dynamicHeight}px`;
 
     timelineItems.forEach(item => {
         const boxx = document.createElement('div');

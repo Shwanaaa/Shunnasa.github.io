@@ -114,7 +114,7 @@ body {
 }
 
 .title h1 {
-    font-size: large;
+    font-size: 26px;
     font-weight: 600;
     color: #1d1d1f;
 }
@@ -165,13 +165,12 @@ body {
     grid-column: 1 / -1;
     grid-row: 3;
     position: relative;
-    width: 100%;
-    height: 700px;
+    width: 1350px;
+    /* height: 750px; */
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    /* background-color: white; */
+    align-items: center; 
 }
 
 .develop::after {
@@ -189,8 +188,8 @@ body {
 .develop .boxx {
     position: relative;
     width: 500px;
-    height: 700px;
-    /*盒子高度*/
+    /* height: 750px;盒子高度 */
+    min-height: 150px; /* 最小高度适应内容 */
     margin-right: 50px;
     display: flex;
     flex-direction: column;
@@ -201,45 +200,50 @@ body {
 .bottom {
     position: relative;
     width: 100%;
-    height: 843.75px;
-    /*盒子高度的40%*/
+    height: 843.75px;/*盒子高度的40%*/
     border-radius: 15px;
+    font-size: 15px;
     color: rgb(90, 90, 90);
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin: 50px 0;
+
+    margin: 10px 0; /* 调整间距 */
 }
 
 .develop .top {
+    margin-bottom: 50px;
     justify-content: flex-end;
 }
 
 .develop .bottom {
+    margin-top: 50px;
     justify-content: flex-start;
 }
 
 .develop .center {
-    position: relative;
+    /* position: relative; */
     width: 100%;
     height: 50.625px;
     /*盒子高度的15%*/
+    top: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .develop .center span {
-    width: 130px;
+    width: 150px;
+    height: 80px;
+    display: flex;     
+    align-items: center;    /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
     border-radius: 10px;
-    text-align: center;
-    font: 900 24px '';
-    line-height: 50px;
+    font: 900 20px '';
     background-color: #e59e9e;
+    text-align: center;     /* 后备方案 */
 }
-
-
 /* 乐器 */
 .music-introduction {
     grid-column: 1 / 7;
@@ -278,7 +282,7 @@ body {
 
 .slidershow {
     width: 100%;
-    height: 300px;
+    height: 343px;
     /* 增加高度以更好显示单张图片 */
     overflow: hidden;
     position: relative;
@@ -312,8 +316,8 @@ body {
 }
 
 .bar {
-    width: 30px;
-    height: 4px;
+    width: 40px;
+    height: 7px;
     border-radius: 2px;
     background-color: #e6e6e6;
     cursor: pointer;
@@ -385,7 +389,7 @@ body {
 
 .tool-image {
     width: 100%;
-    height: 140px;
+    height: 200px;
     object-fit: cover;
 }
 

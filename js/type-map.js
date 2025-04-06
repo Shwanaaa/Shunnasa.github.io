@@ -44,7 +44,7 @@ var data = [
 var option = {
     title: {
         text: '中国各省份剧种数量分布热力图',
-        subtext: '数据来源：用户提供数据',
+        subtext: '数据来源：中国统计局',
         left: 'center'
     },
     tooltip: {
