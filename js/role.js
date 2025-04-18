@@ -3,10 +3,12 @@
      // 戏曲行当数据（树形结构）
  const Data = {
     name: '戏曲行当',
+    label: {position: 'left'},
     children: [
         {
             name: '生',
-            symbol: 'image://https://example.com/laosheng.png', // 需替换实际图标
+            label: {position: 'left'},
+            feature: '阳刚之美，儒雅风流',
             children: [
                 {//老生
                     name: '老生',
@@ -60,8 +62,8 @@
         },
         {
             name: '旦',
-            feature: '长靠短打，如《长坂坡》赵云',
-            symbol: 'image://https://example.com/wusheng.png',
+            label: {position: 'left'},
+            feature: '阴柔之美、端庄贤淑',
             children: [
                 { //正旦
                     name: '正旦',
@@ -172,8 +174,8 @@
         },
         {
             name: '净',
-            feature: '勾红脸角色，如关羽',
-            symbol: 'image://https://example.com/hongsheng.png',
+            label: {position: 'left'},
+            feature: '威武雄壮、粗犷豪放',
             children: [
                 { //大花脸
                     name: '大花脸',
@@ -238,8 +240,8 @@
         },
         {
             name: '丑',
-            feature: '勾红脸角色，如关羽',
-            symbol: 'image://https://example.com/hongsheng.png',
+            label: {position: 'left'},
+            feature: '幽默诙谐、机智灵活',
             children: [
                 { //文丑
                     name: '文丑',
@@ -303,31 +305,24 @@ const option = {
         data: [Data],
         layout: 'orthogonal', // 正交布局
         orient: 'vertical',   // 垂直方向
-        symbol: 'vertical',     // 默认节点形状
         expandAndCollapse: true,
         initialTreeDepth: 2,  // 初始展开层级
-        symbol: 'path://M0,0 L10,0 L5,17 z', // 三角形符号
-        symbolSize: [20, 16],
+        symbol: 'circle',
+        symbolSize: 12,
         itemStyle: {
-            color: params => {
-                const colors = {
-                    '行当大类': '#8B4513',
-                    '文生': '#B87333',
-                    '武生': '#CD2626'
-                };
-                return colors[params.data.type] || '#666';
-            },
-            borderColor: '#654321',
-            borderWidth: 1
+            color: 'hsl(354, 50%, 60%)',
+            borderColor: '#8B0000', // 可选：边框颜色（暗红色）
+            borderWidth: 1         // 可选：边框宽度
         },
-        ineStyle: {
-            color: '#CD8500',
+        lineStyle: {
+            color: '#A0522D',
             width: 2,
             curveness: 0.3
         },
         label: {
-            position: 'left',
+            position: 'bottom',
             verticalAlign: 'middle',
+            distance: 15,
             fontSize: 16,
             color: '#654321',
             rich: {
