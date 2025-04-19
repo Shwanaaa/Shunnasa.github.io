@@ -2,7 +2,7 @@
 var myChart = echarts.init(document.getElementById('map'));
 
 // 加载GeoJSON地图数据
-$.get('https://geo.datav.aliyun.com/areas_v3/bound/geojson?code=100000_full', function(geoJson) {
+$.get('./data/china.json', function(geoJson) {
     // 注册地图
     echarts.registerMap('china', geoJson);
     
