@@ -19,7 +19,7 @@ jobs:
   - !CommandStep
     name: detect build version
     runInContainer: true
-    image: registry.cn-hangzhou.aliyuncs.com/xindijia/cicd:1.0
+    image: crpi-18z4qsjt5ze9ijn8.cn-guangzhou.personal.cr.aliyuncs.com/mealimage/cicd:1.0
     interpreter: !DefaultInterpreter
       commands: |
         echo "Detecting project version (may require some time while downloading maven dependencies)..."
@@ -29,7 +29,7 @@ jobs:
   - !CommandStep
     name: run unit tests && build && run
     runInContainer: true
-    image: registry.cn-hangzhou.aliyuncs.com/xindijia/cicd:1.0
+    image: crpi-18z4qsjt5ze9ijn8.cn-guangzhou.personal.cr.aliyuncs.com/mealimage/cicd:1.0
     interpreter: !DefaultInterpreter
       commands: |
         cd meal &&
