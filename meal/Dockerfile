@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM openjdk:17-jre-slim
 
 WORKDIR /work
 
@@ -6,8 +6,16 @@ ENV TZ=Asia/Shanghai
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-ADD target/*.jar work.jar
+# 安装字体（Debian 兼容）
+RUN set -xe \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        fontconfig \
+        fonts-dejavu \
+    && rm -rf /var/lib/apt/lists/*
 
-EXPOSE 8686
+ADD target/*.jar meal.jar
 
-ENTRYPOINT ["java","-jar","work.jar"]
+EXPOSE 8088
+
+ENTRYPOINT ["java","-jar","meal.jar"]
