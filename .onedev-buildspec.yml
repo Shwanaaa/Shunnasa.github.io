@@ -18,7 +18,7 @@ jobs:
       commands: |
         echo "Detecting project version (may require some time while downloading maven dependencies)..."
         echo $(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout)
-    useTTY: true
+    useTTY: false
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   - !CommandStep
     name: run unity tests
@@ -31,7 +31,7 @@ jobs:
         set -e
         docker build -t @property:docker-name@ .
         docker rm -f @property:docker-name@ && @property:docker-run-command@
-    useTTY: true
+    useTTY: false
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   triggers:
   - !BranchUpdateTrigger {}
