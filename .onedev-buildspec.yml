@@ -32,6 +32,7 @@ jobs:
     image: registry.cn-hangzhou.aliyuncs.com/xindijia/cicd:1.0
     interpreter: !DefaultInterpreter
       commands: |
+        cd meal &&
         mvn clean test
         mvn package -Dmaven.test.skip=true
         set -e
