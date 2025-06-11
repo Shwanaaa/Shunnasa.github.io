@@ -18,8 +18,9 @@ jobs:
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   - !CommandStep
     name: login-aliyun
-    commands: |
-      echo "kid1412@@cjm" | docker login --username="aliyun8676038612" --password-stdin crpi-18z4qsjt5ze9ijn8.cn-guangzhou.personal.cr.aliyuncs.com
+    interpreter: !DefaultInterpreter
+      commands: |
+        echo "kid1412@@cjm" | docker login --username="aliyun8676038612" --password-stdin crpi-18z4qsjt5ze9ijn8.cn-guangzhou.personal.cr.aliyuncs.com
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   - !CommandStep
     name: detect build version
