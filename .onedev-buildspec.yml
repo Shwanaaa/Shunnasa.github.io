@@ -1,0 +1,49 @@
+version: 39
+properties:
+- name: docker-name
+  value: meal-test
+  archived: false
+- name: docker-run-command
+  value: docker run --name=meal-test -d -p 8088:8088 meal-test
+  archived: false
+jobs:
+- name: maven ci
+  jobExecutor: local-docker
+  steps:
+  - !CheckoutStep
+    name: checkout
+    cloneCredential: !DefaultCredential {}
+    withLfs: false
+    withSubmodules: false
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  - !CommandStep
+    name: detect build version
+    runInContainer: true
+    image: registry.cn-hangzhou.aliyuncs.com/xindijia/cicd:1.0
+    interpreter: !DefaultInterpreter
+      commands: |
+        echo "Detecting project version (may require some time while downloading maven dependencies)..."
+        echo $(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout) > buildVersion
+    useTTY: false
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  - !CommandStep
+    name: run unit tests && build && run
+    runInContainer: true
+    image: registry.cn-hangzhou.aliyuncs.com/xindijia/cicd:1.0
+    interpreter: !DefaultInterpreter
+      commands: |
+        cd meal &&
+        mvn clean test
+        mvn package -Dmaven.test.skip=true
+        set -e
+        docker build -t @property:docker-name@:latest .
+        docker rm -f @property:docker-name@ && @property:docker-run-command@:latest
+    useTTY: false
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  triggers:
+  - !BranchUpdateTrigger
+    branches: master
+  retryCondition: never
+  maxRetries: 3
+  retryDelay: 30
+  timeout: 3600
