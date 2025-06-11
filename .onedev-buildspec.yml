@@ -10,6 +10,9 @@ jobs:
 - name: maven ci
   jobExecutor: local-docker
   steps:
+  - name: 登录阿里云镜像仓库
+    commands: |
+      echo "kid1412@@cjm" | docker login --username="aliyun8676038612" --password-stdin crpi-18z4qsjt5ze9ijn8.cn-guangzhou.personal.cr.aliyuncs.com
   - !CheckoutStep
     name: checkout
     cloneCredential: !DefaultCredential {}
