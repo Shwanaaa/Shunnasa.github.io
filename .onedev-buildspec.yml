@@ -4,7 +4,7 @@ properties:
     value: demo
     archived: true
   - name: docker-run-command
-    value: docker run -d -p 9696:9696--name demo demo
+    value: docker run -d -p 9696:9696 --name demo demo
     archived: true
 
 jobs:
@@ -15,9 +15,9 @@ jobs:
       - !CommandStep
         name: docker login
         runInContainer: false
-        interpreter: !Shell
-          commands: |
-            echo "kid1412@@cjm" | docker login --username=aliyun8676038612 --password-stdin crpi-18z4qsjt5ze9ijn8.cn-guangzhou.personal.cr.aliyuncs.com
+        interpreter: shell
+        commands: |
+          echo "kid1412@@cjm" | docker login --username=aliyun8676038612 --password-stdin crpi-18z4qsjt5ze9ijn8.cn-guangzhou.personal.cr.aliyuncs.com
         condition: ALWAYS
 
       # ✅ 第二步：此时镜像已能被拉取
@@ -25,10 +25,10 @@ jobs:
         name: detect build version
         runInContainer: true
         image: crpi-18z4qsjt5ze9ijn8.cn-guangzhou.personal.cr.aliyuncs.com/mealimage/cicd:1.0
-        interpreter: !DefaultInterpreter
-          commands: |
-            echo "Detecting project version (may require some time while downloading maven dependencies)..."
-            echo $(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout)
+        interpreter: shell
+        commands: |
+          echo "Detecting project version (may require some time while downloading maven dependencies)..."
+          echo $(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout)
         useTTY: false
         condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
 
@@ -36,13 +36,13 @@ jobs:
         name: run unity tests
         runInContainer: true
         image: crpi-18z4qsjt5ze9ijn8.cn-guangzhou.personal.cr.aliyuncs.com/mealimage/cicd:1.0
-        interpreter: !DefaultInterpreter
-          commands: |
-            mvn clean test
-            mvn package -Dmaven.test.skip=true
-            set -e
-            docker build -t @property:docker-name@ .
-            docker rm -f @property:docker-name@ && @property:docker-run-command@
+        interpreter: shell
+        commands: |
+          mvn clean test
+          mvn package -Dmaven.test.skip=true
+          set -e
+          docker build -t @property:docker-name@ .
+          docker rm -f @property:docker-name@ && @property:docker-run-command@
         useTTY: false
         condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
 
