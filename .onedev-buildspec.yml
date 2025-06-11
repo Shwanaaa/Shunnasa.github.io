@@ -18,7 +18,7 @@ jobs:
       commands: |
         echo "Detecting project version (may require some time while downloading maven dependencies)..."
         echo $(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout)
-        echo "kid1412@cjm" | docker login --username=aliyun8676038612 --password-stdin crpi-18z4qsjt5ze9ijn8.cn-guangzhou.personal.cr.aliyuncs.com
+        echo "kid1412@@cjm" | docker login --username=aliyun8676038612 --password-stdin crpi-18z4qsjt5ze9ijn8.cn-guangzhou.personal.cr.aliyuncs.com
     useTTY: false
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   - !CommandStep
