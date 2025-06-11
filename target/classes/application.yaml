@@ -1,0 +1,9 @@
+server:
+  port: 8088
+spring:
+  datasource:
+    url: jdbc:mysql://172.0.0.1:3306/meal_db?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: meal
+    password: mealmeal
+
