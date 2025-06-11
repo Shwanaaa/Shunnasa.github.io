@@ -2,10 +2,10 @@ version: 39
 properties:
 - name: docker-name
   value: demo
-  archived: false
+  archived: true
 - name: docker-run-command
   value: docker run -d -p 9696:9696--name demo demo
-  archived: false
+  archived: true
 jobs:
 - name: maven ci
   jobExecutor: local-docker
