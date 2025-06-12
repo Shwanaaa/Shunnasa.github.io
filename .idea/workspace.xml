@@ -51,7 +51,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "E:/QT/project/JZB/gwjzb",
+    "last_opened_file_path": "E:/QT/project/ML/meal",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -171,6 +171,7 @@
       <workItem from="1749619181480" duration="7247000" />
       <workItem from="1749688936346" duration="688000" />
       <workItem from="1749692737197" duration="1148000" />
+      <workItem from="1749696922271" duration="757000" />
     </task>
     <task id="LOCAL-00001" summary="feat[CI/CD]:编写工作流文件">
       <option name="closed" value="true" />
@@ -220,7 +221,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749693990549</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="feat[CI/CD]:编写工作流文件">
+      <option name="closed" value="true" />
+      <created>1749696988366</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1749696988366</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
