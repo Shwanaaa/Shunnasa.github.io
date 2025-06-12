@@ -8,7 +8,7 @@ properties:
   archived: false
 jobs:
 - name: maven ci
-  jobExecutor: server-shell
+  jobExecutor: local-docker
   steps:
   - !CheckoutStep
     name: checkout
