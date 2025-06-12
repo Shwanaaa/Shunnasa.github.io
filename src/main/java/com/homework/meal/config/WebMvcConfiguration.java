@@ -2,6 +2,7 @@ package com.homework.meal.config;
 
 
 //import com.homework.meal.interceptor.AuthInterceptor ;
+import com.homework.meal.interceptor.AuthInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,35 +24,36 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 @Slf4j
 public class WebMvcConfiguration extends WebMvcConfigurationSupport {
-//    @Bean
-//    public AuthInterceptor authInterceptor() {
-//        return new AuthInterceptor();
-//    }
-//
-//    /**
-//     * 解决跨域问题
-//     */
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**")
-//                .allowedOriginPatterns("*")
-//                .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
-//                .allowCredentials(true)
-//                .maxAge(3600)
-//                .allowedHeaders("*");
-//    }
-//
-//    @Override
-//        public void addInterceptors(InterceptorRegistry registry) {
-//            registry.addInterceptor(authInterceptor())
-//                    // 放通静态资源和所有登录接口
-//                    .excludePathPatterns("/static/**")
-//                    .excludePathPatterns("/doc.html", "/webjars/**", "/v3/api-docs/**", "/swagger-resources/**")
-//                    .excludePathPatterns("/user/register")
-//                    .excludePathPatterns("/user/login")
-//                    .addPathPatterns("/**");
-//
-//        }
+    @Bean
+    public AuthInterceptor authInterceptor() {
+        return new AuthInterceptor();
+    }
+
+    /**
+     * 解决跨域问题
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+                .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowCredentials(true)
+                .maxAge(3600)
+                .allowedHeaders("*");
+    }
+
+    @Override
+        public void addInterceptors(InterceptorRegistry registry) {
+            registry.addInterceptor(authInterceptor())
+                    // 放通静态资源和所有登录接口
+                    .excludePathPatterns("/static/**")
+                    .excludePathPatterns("/doc.html", "/webjars/**", "/v3/api-docs/**", "/swagger-resources/**")
+                    .excludePathPatterns("/user/register")
+                    .excludePathPatterns("/user/login")
+                    .excludePathPatterns("/user/hello")
+                    .addPathPatterns("/**");
+
+        }
 
     /**
      * 通过knife4j生成接口文档

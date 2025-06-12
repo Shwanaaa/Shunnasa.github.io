@@ -1,7 +1,10 @@
 package com.homework.meal.controller;
 
+import com.homework.meal.bean.JsonResponse;
+import io.swagger.util.Json;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -13,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-    @GetMapping("/hello")
-    public String hello(){
-        return "耶耶耶耶耶";
+    @GetMapping(value = "/hello")
+    public JsonResponse hello(){
+        return JsonResponse.success("你好！！");
     }
 }
