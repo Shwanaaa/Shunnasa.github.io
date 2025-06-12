@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="286ce760-07a2-470a-b9f4-6022e4ac756e" name="更改" comment="feat[CI/CD]:编写工作流文件">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +171,7 @@
       <workItem from="1749619181480" duration="7247000" />
       <workItem from="1749688936346" duration="688000" />
       <workItem from="1749692737197" duration="1148000" />
-      <workItem from="1749696922271" duration="757000" />
+      <workItem from="1749696922271" duration="1482000" />
     </task>
     <task id="LOCAL-00001" summary="feat[CI/CD]:编写工作流文件">
       <option name="closed" value="true" />
@@ -229,7 +229,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749696988366</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="feat[CI/CD]:编写工作流文件">
+      <option name="closed" value="true" />
+      <created>1749706746574</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1749706746574</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
