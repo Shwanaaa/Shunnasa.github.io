@@ -36,7 +36,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         // Token 校验
         String token = request.getHeader(TOKEN_HEADER);
         if (token == null || token.isEmpty()) {
-            response.getWriter().write(JSON.toJSONString(JsonResponse.tokenError("缺少token参数")));
+            response.getWriter().write(JSON.toJSONString(JsonResponse.tokenError("用户未登录")));
             return false;
         }
 

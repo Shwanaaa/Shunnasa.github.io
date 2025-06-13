@@ -18,4 +18,4 @@ ADD target/*.jar meal.jar
 
 EXPOSE 8088
 
-ENTRYPOINT ["java","-jar","meal.jar"]
+ENTRYPOINT ["java","-jar","meal.jar","--spring.profiles.active=test"]

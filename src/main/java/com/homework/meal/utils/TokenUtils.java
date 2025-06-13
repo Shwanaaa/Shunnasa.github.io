@@ -23,13 +23,11 @@ public class TokenUtils {
      * 发放token
      *
      * @param uid  用户id
-     * @param role 权限
      * @return 获取到的token
      */
-    public String grantToken(int uid, int role) {
+    public String grantToken(int uid) {
         HashMap<String, Integer> identity = new HashMap<>();
         identity.put("uid", uid);
-        identity.put("role", role);
 
         String key = UUID.randomUUID().toString().replace("-", "");
         // token有效期为1周
@@ -58,21 +56,6 @@ public class TokenUtils {
         return (HashMap<String, Integer>) redisUtils.get(key);
     }
 
-    /**
-     * 获取token对应的权限
-     *
-     * @param key token
-     * @return 权限
-     */
-    public int getTokenRole(String key) {
-        int role;
-        try {
-            role = retrieveToken(key).get("role");
-        } catch (NullPointerException e) {
-            throw new ApiException("token无效");
-        }
-        return role;
-    }
 
     /**
      * 获取token对应的id

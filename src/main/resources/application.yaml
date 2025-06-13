@@ -1,17 +1,7 @@
 server:
   port: 8088
-
-spring:
-  datasource:
-    url: jdbc:mysql://172.0.0.1:3306/meal_db?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: meal
-    password: mealmeal
-  # redis config
-  redis:
-   host: localhost
-   port: 6379
-   database: 0
+  servlet:
+    context-path: /meal/
 
 # mybatisPlus config
 mybatis-plus:
@@ -24,3 +14,12 @@ mybatis-plus:
 
 project:
   isDebug: true
+
+#COSconfig
+qcloud:
+  secretId: AKIDtfKwMZbS6Z7YmneIk281iDVZP5YnriMn
+  secretKey: GI7i6HG2bx50iPD2e2GI7i5FCvRjomW3
+  region: ap-guangzhou
+  URL: https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/
+  bucketName: jayma05-1326851618
+
