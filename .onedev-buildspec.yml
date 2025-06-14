@@ -36,7 +36,7 @@ jobs:
         mvn package -Dmaven.test.skip=true
         set -e
         docker build -t @property:docker-name@:latest .
-        docker rm -f @property:docker-name@ && @property:docker-run-command@ -e JASYPT_ENCRYPTOR_PASSWORD=@secret:run-secret@ @property:docker-name@:latest .
+        docker rm -f @property:docker-name@ && @property:docker-run-command@ -e jasypt.encryptor.password=@secret:run-secret@ @property:docker-name@:latest .
     useTTY: false
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   - !PushRepository
