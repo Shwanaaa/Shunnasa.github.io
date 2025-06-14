@@ -30,7 +30,7 @@ public class COSUtils {
 
     private final QCloudProperties qCloudProperties;
 
-    private static final String MEAL_PHOTO_PREFIX = "meal/photo";
+    private static final String MEAL_PHOTO_PREFIX = "meal/photo/";
 
     /**
      * 上传图片

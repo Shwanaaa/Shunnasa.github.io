@@ -1,7 +1,5 @@
 project:
   isDebug: true
-  resourceSaveLocation: e:/javaTest/meal/
-  resourceAccessUrl: http://8.134.154.79:8088/resource/
 
 spring:
   datasource:

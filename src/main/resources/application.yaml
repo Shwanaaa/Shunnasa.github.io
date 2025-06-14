@@ -3,6 +3,10 @@ server:
   servlet:
     context-path: /meal/
 
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES  #指定解密算法
+
 # mybatisPlus config
 mybatis-plus:
   configuration:
@@ -17,8 +21,8 @@ project:
 
 #COSconfig
 qcloud:
-  secretId: AKIDtfKwMZbS6Z7YmneIk281iDVZP5YnriMn
-  secretKey: GI7i6HG2bx50iPD2e2GI7i5FCvRjomW3
+  secretId: ENC(tJzlafN2XmskVdpt1dgmDirLMZpQ2Xo1rp8BVv/6N6dtT4OA57GAXIAVC6wGsBq6nnvPzh1Tuus=)
+  secretKey: ENC(kN+VclXasPsL4uxNFp96BOFqaFLE7UbvX8eEhaDrAsV1jcnF6N3whiD9d1dLFRLP44sBlhhcaTg=)
   region: ap-guangzhou
   URL: https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/
   bucketName: jayma05-1326851618
