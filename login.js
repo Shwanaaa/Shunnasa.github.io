@@ -15,7 +15,7 @@ registerToggle.addEventListener('click', () => {
     loginToggle.classList.remove('active');
 });
 
-// 表单验证
+// 登录界面
 document.getElementById('loginFormElement').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -71,40 +71,24 @@ document.getElementById('loginFormElement').addEventListener('submit', function(
     });
 });
 
+//注册界面
 document.getElementById('registerFormElement').addEventListener('submit', function(e) {
     e.preventDefault();
     
     let isValid = true;
-    const username = document.getElementById('registerUsername').value;
-    const email = document.getElementById('registerEmail').value;
-    const phone = document.getElementById('registerPhone').value;
-    const password = document.getElementById('registerPassword').value;
-    const confirmPassword = document.getElementById('registerConfirmPassword').value;
+    const username = document.getElementById('registerUsername').value.trim();
+    const password = document.getElementById('registerPassword').value.trim();
+    const confirmPassword = document.getElementById('registerConfirmPassword').value.trim();
     
-    // 验证用户名
-    if (username.trim().length < 4) {
-        showError('registerUsernameError', '用户名至少需要4个字符');
+    // 验证用户名不超过20字符
+    if (username.length == 0) {
+        showError('registerUsernameError', '用户名不能为空');
+        isValid = false;
+    } else if (username.length > 20) {
+        showError('registerUsernameError', '用户名长度不得超过20');
         isValid = false;
     } else {
         hideError('registerUsernameError');
-    }
-    
-    // 验证邮箱
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        showError('registerEmailError', '请输入有效的邮箱地址');
-        isValid = false;
-    } else {
-        hideError('registerEmailError');
-    }
-    
-    // 验证电话
-    const phoneRegex = /^\d{10,11}$/;
-    if (!phoneRegex.test(phone)) {
-        showError('registerPhoneError', '请输入有效的电话号码');
-        isValid = false;
-    } else {
-        hideError('registerPhoneError');
     }
     
     // 验证密码
@@ -123,16 +107,64 @@ document.getElementById('registerFormElement').addEventListener('submit', functi
         hideError('registerConfirmPasswordError');
     }
     
-    if (isValid) {
-        // 在实际应用中，这里会发送AJAX请求
-        alert('注册成功！欢迎使用美味订餐系统');
-        // 重置表单
-        this.reset();
-        // 切换到登录表单
-        formContainer.classList.remove('register-mode');
-        loginToggle.classList.add('active');
-        registerToggle.classList.remove('active');
-    }
+     if (!isValid) return;
+
+     // 请求体
+    const requestBody = JSON.stringify({
+        data: {
+            userName: username,
+            password: password,
+            avatar: "https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/img/default_avatar.jpg" //默认头像
+        }
+    });
+    console.log("注册请求体:", requestBody);
+
+    // 发送注册请求
+    fetch("http://8.134.154.79:8088/meal/user/register", {
+        method: 'POST',
+        headers: { 
+            "Content-Type": "application/json" 
+        },
+        body: requestBody
+    })
+    .then(response => {
+        if (!response.ok) throw new Error(`HTTP错误: ${response.status}`);
+        return response.json();
+    })
+    .then(result => {
+        console.log("注册响应:", result);
+        switch (result.code) {
+            case 200:
+                alert(result.msg || "注册成功！");
+                this.reset(); // 重置表单
+                formContainer.classList.remove('register-mode'); // 切换到登录表单
+                loginToggle.classList.add('active');
+                registerToggle.classList.remove('active');
+                break;
+            case 400:
+                if (result.msg.includes("已被注册")) {
+                    showError('registerUsernameError', result.msg);
+                } else {
+                    alert(result.msg);
+                }
+                break;
+            case 402:
+                // 参数校验错误（如用户名为空/长度不符）
+                const errorField = result.msg.match(/用户名(.+)/) ? 'registerUsernameError' : null;
+                if (errorField) {
+                    showError(errorField, result.msg);
+                } else {
+                    alert(result.msg);
+                }
+                break;
+            default:
+                alert(result.msg || "注册失败，请重试");
+        }
+    })
+    .catch(error => {
+        console.error("注册请求失败:", error);
+        alert("网络错误，请检查连接");
+    });
 });
 
 function showError(elementId, message) {
