@@ -6,7 +6,7 @@
 }
 
 body {
-    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    background: linear-gradient(135deg, #fcbe11 0%, #ff7c2d 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -54,7 +54,7 @@ body {
     left: 30px;
     font-size: 2rem;
     font-weight: bold;
-    color: #ff6b6b;
+    color: #fcbe11;
 }
 
 .right-panel {
@@ -89,7 +89,7 @@ body {
 }
 
 .toggle-btn.active {
-    color: #ff6b6b;
+    color: #fcbe11;
 }
 
 .toggle-btn.active::after {
@@ -100,7 +100,7 @@ body {
     transform: translateX(-50%);
     width: 70%;
     height: 3px;
-    background: #ff6b6b;
+    background: #fcbe11;
     border-radius: 3px;
 }
 
@@ -160,8 +160,8 @@ body {
 }
 
 .input-group input:focus {
-    border-color: #ff6b6b;
-    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+    border-color: #fcbe11;
+    box-shadow: 0 0 0 3px rgba(252, 190, 17, 0.2);
     outline: none;
 }
 
@@ -183,14 +183,14 @@ body {
 }
 
 .remember a {
-    color: #ff6b6b;
+    color: #fcbe11;
     text-decoration: none;
 }
 
 .btn {
     width: 100%;
     padding: 15px;
-    background: #ff6b6b;
+    background: #fcbe11;
     color: white;
     border: none;
     border-radius: 8px;
@@ -201,7 +201,7 @@ body {
 }
 
 .btn:hover {
-    background: #ff5252;
+    background: #f9b400;
 }
 
 .social-login {
@@ -253,7 +253,7 @@ body {
 }
 
 .social-icons a:hover {
-    background: #ff6b6b;
+    background: #fcbe11;
     color: white;
     transform: translateY(-3px);
 }
@@ -280,7 +280,7 @@ body {
 }
 
 .error {
-    color: #ff6b6b;
+    color: #ff7c2d;
     font-size: 0.85rem;
     margin-top: 5px;
     display: none;
