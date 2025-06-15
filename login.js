@@ -19,31 +19,56 @@ registerToggle.addEventListener('click', () => {
 document.getElementById('loginFormElement').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    let isValid = true;
-    const username = document.getElementById('loginUsername').value;
-    const password = document.getElementById('loginPassword').value;
+   // 获取并清理输入值
+    const username = document.getElementById('loginUsername').value.trim().replace(/\s+/g, '');
+    const password = document.getElementById('loginPassword').value.trim().replace(/\s+/g, '');
     
-    // 简单的验证
-    if (username.trim() === '') {
-        showError('loginUsernameError', '请输入用户名');
-        isValid = false;
-    } else {
-        hideError('loginUsernameError');
+    // 前端基础验证
+    if (!username || !password) {
+        alert('用户名和密码不能为空！');
+        return; // 阻止请求
     }
-    
-    if (password.trim() === '') {
-        showError('loginPasswordError', '请输入密码');
-        isValid = false;
-    } else {
-        hideError('loginPasswordError');
-    }
-    
-    if (isValid) {
-        // 在实际应用中，这里会发送AJAX请求
-        alert('登录成功！');
-        // 重置表单
-        this.reset();
-    }
+
+    // 构造请求体（直接平铺userName和password）
+    const requestBody = JSON.stringify({
+    data: {
+        userName: username,
+        password: password
+        }
+    });
+    console.log("发送的请求体:", requestBody); // 调试用
+
+    // 发送登录请求
+    fetch("http://8.134.154.79:8088/meal/user/login", {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: requestBody
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`网络错误: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(result => {
+        console.log("后端响应:", result);
+        switch (result.code) {
+            case 200:
+                alert(result.msg); // "操作成功"
+                localStorage.setItem('token', result.data.token); // 存储token
+                window.location.href = 'order.html'; // 跳转
+                break;
+            case 400:
+                alert(result.msg); // "密码错误" 或 "用户未注册"
+                break;
+            default:
+                alert(`未知错误: ${result.msg}`);
+        }
+    })
+    .catch(error => {
+        console.error("请求失败:", error);
+        alert('网络异常，请检查连接后重试');
+    });
 });
 
 document.getElementById('registerFormElement').addEventListener('submit', function(e) {
