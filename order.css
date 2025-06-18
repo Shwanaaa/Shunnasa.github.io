@@ -33,7 +33,7 @@ a {
     clear: both;
 }
 
-/* 头部导航 */
+/* 头部 */
 .header {
     position: fixed;
     top: 0;
@@ -51,6 +51,18 @@ a {
     height: 100%;
 }
 
+.logo {
+    width: 190px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    background: url('img/logo2.png') no-repeat;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+}
 
 .nav {
     margin-left: 40px;
@@ -62,39 +74,55 @@ a {
 
 .nav ul li {
     margin: 0 15px;
-    line-height: 60px;
-    font-size: 16px;
-    color: #333;
-    cursor: pointer;
-    transition: color 0.3s;
 }
 
-.nav ul li:hover {
-    color: #fcbe11;
+.nav ul li a {
+    display: block;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 10px;
+    font-size: 16px;
+    color: #050505;
+    transition: all 0.3s;
+}
+
+.nav ul li a:hover {
+    color: #ff7c2d;
+    border-bottom: 2px solid #fcbe11;
+}
+
+.nav ul li a.active {
+    color: #ff7c2d;
+    border-bottom: 2px solid #fcbe11;
 }
 
 .search {
     display: flex;
     align-items: center;
     margin-left: 40px;
+    width: 412px;
 }
 
 .search input {
-    width: 240px;
+    width: 336px;
     height: 36px;
-    padding: 0 12px;
-    border: 1px solid #eee;
-    border-radius: 4px 0 0 4px;
+    padding: 0 15px;
+    border: 2px solid #fcbe11;
+    border-right: 0;
+    border-radius: 20px 0 0 20px;
     outline: none;
+    font-size: 14px;
+    color: #333;
 }
 
 .search button {
-    width: 60px;
+    width: 50px;
     height: 36px;
     border: none;
     background-color: #fcbe11;
+    background: url('img/btn.png');
     color: #fff;
-    border-radius: 0 4px 4px 0;
+    border-radius: 0 20px 20px 0;
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -107,6 +135,7 @@ a {
     margin-left: auto;
     display: flex;
     align-items: center;
+    margin-right: 30px;
     color: #666;
 }
 
@@ -116,89 +145,6 @@ a {
     border-radius: 50%;
     margin-right: 8px;
 }
-
-
-/* 头部导航 */
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 55px;
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
-
-.logo {
-    float: left;
-    width: 190px;
-    height: 55px;
-    background: url('img/logo2.png') no-repeat;
-}
-
-.nav {
-    float: left;
-    margin-left: 60px;
-}
-
-.nav ul li {
-    float: left;
-    margin: 0 15px;
-}
-
-.nav ul li a {
-    display: block;
-    height: 55px;
-    padding: 0 10px;
-    line-height: 55px;
-    font-size: 18px;
-    color: #050505;
-}
-
-.nav ul li a:hover {
-    border-bottom: 2px solid #fcbe11;
-    color: #ff7c2d;
-}
-
-/* 搜索模块 */
-.search {
-    float: left;
-    width: 412px;
-    height: 42px;
-    margin-left: 70px;
-    margin-top: 6px;
-}
-
-.search input {
-    float: left;
-    width: 336px;
-    height: 40px;
-    border: 3px solid #fcbe11;
-    border-right: 0;
-    color: #bfbfbf;
-    font-size: 14px;
-    padding-left: 15px;
-    border-radius: 20px 0 0 20px;
-}
-
-.search button {
-    float: left;
-    width: 50px;
-    height: 40px;
-    border: 0;
-    background: url('img/btn.png');
-    border-radius: 0 20px 20px 0;
-}
-
-.user {
-    float: right;
-    line-height: 55px;
-    margin-right: 30px;
-    font-size: 14px;
-    color: #666;
-}
-
 
 /* 轮播 banner */
 .banner {
