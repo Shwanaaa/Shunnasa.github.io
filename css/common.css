@@ -21,7 +21,7 @@
     height: 60px;
     display: flex;
     align-items: center;
-    background: url('img/logo2.png') no-repeat;
+    background: url('../img/logo2.png') no-repeat;
 }
 
 .logo img {
@@ -85,7 +85,7 @@
     height: 36px;
     border: none;
     background-color: #fcbe11;
-    background: url('img/btn.png');
+    background: url('../img/btn.png');
     color: #fff;
     border-radius: 0 20px 20px 0;
     cursor: pointer;
