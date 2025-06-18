@@ -6,29 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>我的订单</title>
-    <link rel="stylesheet" href="order.css">
-    <style>
-        .order-list {
-            margin-top: 20px;
-        }
-
-        .order-item {
-            background-color: #fff;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-
-        .order-item h4 {
-            margin-bottom: 5px;
-        }
-
-        .order-item p {
-            margin-bottom: 5px;
-            color: #666;
-        }
-    </style>
+    <link rel="stylesheet" href="css/my_orders.css">
+    <link rel="stylesheet" href="css/common.css">
 </head>
 
 <body>
@@ -61,28 +40,66 @@
     </div>
 
     <!-- 我的订单内容区域 -->
-    <div class="w">
-        <h2 style="margin-top: 80px;">我的订单</h2>
-        <div class="order-list">
-            <!-- 订单示例 -->
-            <div class="order-item">
-                <h4>订单编号：20240101001</h4>
-                <p>下单时间：2024-01-01 12:00</p>
-                <p>菜品：老坛酸菜鱼饭 x 1，黑椒牛柳意面 x 1</p>
-                <p>总价：154 元</p>
-                <p>订单状态：已完成</p>
+<div class="w">
+    <div style="margin-top: 80px; display: flex; justify-content: space-between; align-items: center;">
+        <h2>我的订单</h2>
+        <button id="manageOrdersBtn" class="manage-btn">管理订单</button>
+    </div>
+    <div class="order-list">
+        <!-- 订单示例 -->
+        <div class="order-item" data-order-id="20240101001">
+            <h4>订单编号：20240101001</h4>
+            <div class="order-info">
+                <div>
+                    <p><strong>下单时间：</strong>2024-01-01 12:00</p>
+                    <p><strong>菜品：</strong></p>
+                    <ul style="margin-left: 20px;">
+                        <li>老坛酸菜鱼饭 x 1</li>
+                        <li>黑椒牛柳意面 x 1</li>
+                    </ul>
+                </div>
+                <div>
+                    <p><strong>总价：</strong><span style="color: #ff4d4f; font-weight: bold;">154 元</span></p>
+                    <p><strong>状态：</strong><span class="order-status status-completed">已完成</span></p>
+                </div>
             </div>
-            <div class="order-item">
-                <h4>订单编号：20240102002</h4>
-                <p>下单时间：2024-01-02 18:30</p>
-                <p>菜品：泰式冬阴功汤 x 1，天妇罗盖饭 x 1</p>
-                <p>总价：45 元</p>
-                <p>订单状态：配送中</p>
+            <button class="delete-btn">删除</button>
+        </div>
+        <div class="order-item" data-order-id="20240102002">
+            <h4>订单编号：20240102002</h4>
+            <div class="order-info">
+                <div>
+                    <p><strong>下单时间：</strong>2024-01-02 18:30</p>
+                    <p><strong>菜品：</strong></p>
+                    <ul style="margin-left: 20px;">
+                        <li>泰式冬阴功汤 x 1</li>
+                        <li>天妇罗盖饭 x 1</li>
+                    </ul>
+                </div>
+                <div>
+                    <p><strong>总价：</strong><span style="color: #ff4d4f; font-weight: bold;">45 元</span></p>
+                    <p><strong>状态：</strong><span class="order-status status-delivering">配送中</span></p>
+                </div>
+            </div>
+            <button class="delete-btn">删除</button>
+        </div>
+    </div>
+</div>
+
+<!-- 确认删除模态框 -->
+    <div class="confirmation-modal" id="confirmationModal">
+        <div class="modal-content">
+            <h3>确认删除订单</h3>
+            <p>您确定要删除这个订单吗？此操作不可撤销。</p>
+            <div class="modal-actions">
+                <button class="cancel-btn" id="cancelDeleteBtn">取消</button>
+                <button class="confirm-btn" id="confirmDeleteBtn">确认删除</button>
             </div>
         </div>
     </div>
 
     <!-- 页脚 -->
+
     <div class="footer">
         <div class="w">
             <div class="copyright">
