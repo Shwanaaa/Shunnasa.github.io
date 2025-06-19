@@ -205,7 +205,7 @@ a {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background-image: url('img/card.jpg');
+    background-image: url('../img/card.jpg');
     background-size: cover;
     background-position: center;
     border: none;
