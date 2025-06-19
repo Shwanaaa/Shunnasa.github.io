@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 </title>
+    <link rel="stylesheet" href="order.css">
+    <link rel="stylesheet" href="user.css">
+
+<body>
+    <!-- 头部区域 -->
+    <div class="header">
+        <div class="w">
+            <!-- logo部分 -->
+            <div class="logo"><img src="img/logo2.png"></div>
+            <!-- 导航栏部分 -->
+            <div class="nav">
+                <ul>
+                    <li><a href="order.html">首页</a></li>
+                    <li><a href="my_orders.html">我的订单</a></li>
+                    <li><a href="#" class="active">个人中心</a></li>
+                </ul>
+            </div>
+            <!-- 搜索模块 -->
+            <div class="search">
+                <input type="text" placeholder="输入菜品名称">
+                <button></button>
+            </div>
+            <!-- 用户模块 -->
+            <div class="user">
+                <!-- 用网络占位图替代用户头像 -->
+                <img src="img/user.png" alt="用户头像">
+                <span>用户名</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 用户信息主容器 -->
+    <div class="w user-container">
+        <!-- 侧边栏 -->
+        <div class="user-sidebar">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="img/user.png" alt="用户头像">
+                </div>
+                <div class="user-name">TxE162525418</div>
+                <div class="user-id">美团号: mt1229638988660</div>
+                <div class="user-level">普通用户</div>
+            </div>
+            <ul class="user-nav">
+                <li><a href="#" class="active"></i> 个人资料</a></li>
+                <li><a href="my_orders.html">我的订单</a></li>
+                <li><a href="#"> 我的收藏</a></li>
+                <li><a href="#">账户设置</a></li>
+                <li><a href="#">帮助中心</a></li>
+                <li><a href="#" class="btn-danger"> 退出登录</a></li>
+            </ul>
+        </div>
+
+        <!-- 主内容区 -->
+        <div class="user-main">
+            <!-- 个人资料部分 -->
+            <div class="user-section">
+                <h2 class="section-title">个人资料</h2>
+                <div class="edit-info-form">
+                    <div class="form-group">
+                        <label class="form-label">头像</label>
+                        <div class="upload-avatar">
+                            <span class="upload-btn">更换头像</span>
+                            <input type="file" class="file-input">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">邮箱</label>
+                        <input type="text" class="form-control" placeholder="请输入你的邮箱">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label class="form-label">昵称</label>
+                            <input type="text" class="form-control" value="TxE162525418">
+                        </div>
+                        <div class="form-col">
+                            <label class="form-label">手机号码</label>
+                            <input type="tel" class="form-control" placeholder="请输入手机号码">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label class="form-label">性别</label>
+                            <select class="form-control">
+                                <option value="">请选择</option>
+                                <option value="male">男</option>
+                                <option value="female">女</option>
+                            </select>
+                        </div>
+                        <div class="form-col">
+                            <label class="form-label">生日</label>
+                            <input type="date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">简介</label>
+                        <input type="text" class="form-control" placeholder="一句话介绍自己">
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="button" class="btn btn-primary">保存修改</button>
+                        <button type="button" class="btn btn-secondary ml-2">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
