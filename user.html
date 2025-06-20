@@ -73,22 +73,22 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">邮箱</label>
-                        <input type="text" class="form-control" placeholder="请输入你的邮箱">
+                        <input type="text" class="form-control" placeholder="请输入你的邮箱" readonly>
                     </div>
                     <div class="form-row">
                         <div class="form-col">
-                            <label class="form-label">昵称</label>
-                            <input type="text" class="form-control" value="TxE162525418">
+                            <label class="form-label">用户名</label>
+                            <input  name="userName" type="text" class="form-control" value="TxE162525418">
                         </div>
                         <div class="form-col">
                             <label class="form-label">手机号码</label>
-                            <input type="tel" class="form-control" placeholder="请输入手机号码">
+                            <input name="phone" type="tel" class="form-control" placeholder="请输入手机号码">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-col">
                             <label class="form-label">性别</label>
-                            <select class="form-control">
+                            <select name="gender" class="form-control">
                                 <option value="">请选择</option>
                                 <option value="male">男</option>
                                 <option value="female">女</option>
@@ -96,12 +96,12 @@
                         </div>
                         <div class="form-col">
                             <label class="form-label">生日</label>
-                            <input type="date" class="form-control">
+                            <input name="birthday" type="date" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="form-label">简介</label>
-                        <input type="text" class="form-control" placeholder="一句话介绍自己">
+                        <input name="introduction" type="text" class="form-control" placeholder="一句话介绍自己">
                     </div>
                     <div class="form-group text-center">
                         <button type="button" class="btn btn-primary">保存修改</button>
@@ -112,5 +112,7 @@
         </div>
     </div>
 </body>
+
+<script src="./js/user.js"></script>
 
 </html>
