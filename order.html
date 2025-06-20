@@ -23,7 +23,7 @@
                 <ul>
                     <li><a href="order.html">首页</a></li>
                     <li><a href="my_orders.html" class="active">我的订单</a></li>
-                    <li><a href="user.html" class="active">个人中心</a></li>
+                    <li><a href="user.html" onclick="goToUserCenter()">个人中心</a></li>
                 </ul>
             </div>
             <!-- 搜索模块 -->
@@ -177,56 +177,8 @@
         </div>
     </div>
 
- 
-
-    <!-- 交互脚本 -->
-    <script>
-        // 加入购物车功能
-        const cartBtns = document.querySelectorAll('.cart-btn-small');
-
-        cartBtns.forEach(button => {
-            button.addEventListener('click', () => {
-                const dishName = button.dataset.dish;
-                alert(`已将 ${dishName} 加入购物车！`);
-
-                // 添加点击动画效果
-                button.classList.add('clicked');
-                setTimeout(() => {
-                    button.classList.remove('clicked');
-                }, 300);
-            });
-        });
-
-        // 菜单分类筛选
-        const menuLinks = document.querySelectorAll('.menu-index ul li a');
-        const dishes = document.querySelectorAll('.dish-card');
-
-        menuLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                // 移除所有导航项的 active 类
-                menuLinks.forEach(item => item.classList.remove('active'));
-
-                // 添加 active 类到当前点击的导航项
-                link.classList.add('active');
-
-                const category = link.dataset.category;
-
-                if (category === 'all') {
-                    dishes.forEach(dish => dish.style.display = 'block');
-                } else {
-                    dishes.forEach(dish => {
-                        if (dish.dataset.category === category) {
-                            dish.style.display = 'block';
-                        } else {
-                            dish.style.display = 'none';
-                        }
-                    });
-                }
-            });
-        });
-    </script>
 </body>
+
+<script src="./js/order.js"></script>
 
 </html>
