@@ -1,9 +1,6 @@
 package com.homework.meal.po;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Min;
+import java.io.Serializable;
 
 /**
  * @Author: JM
@@ -22,7 +20,8 @@ import javax.validation.constraints.Min;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("user")
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * 用户id
@@ -34,7 +33,7 @@ public class User {
     /**
      * 用户名
      */
-    @TableField("user_name")
+    @TableField(value = "user_name", updateStrategy = FieldStrategy.IGNORED)
     private String userName;
 
     /**
@@ -43,5 +42,40 @@ public class User {
     @TableField("password")
     private String password;
 
+    /**
+     * 用户头像
+     */
+    @TableField("avatar")
+    private String avatar;
+
+    /**
+     * 手机号
+     */
+    @TableField(value = "phone", updateStrategy = FieldStrategy.IGNORED)
+    private String phone;
+
+    /**
+     * 个人简介
+     */
+    @TableField(value = "introduction", updateStrategy = FieldStrategy.IGNORED)
+    private String introduction;
+
+    /**
+     * 性别
+     */
+    @TableField(value = "gender", updateStrategy = FieldStrategy.IGNORED)
+    private String gender;
+
+    /**
+     * 生日
+     */
+    @TableField(value = "birthday", updateStrategy = FieldStrategy.IGNORED)
+    private String birthday;
+
+    /**
+     * 邮箱
+     */
+    @TableField("email")
+    private String email;
 
 }

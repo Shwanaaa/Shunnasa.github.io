@@ -3,23 +3,26 @@ package com.homework.meal.dto;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 /**
  * @Author: JM
- * @Date: 2025-06-13-17:10
- * @Description: 注册dto
+ * @Date: 2025-06-19-22:57
+ * @Description:
  */
-@Validated
 @Data
-public class UserDTO {
-
-    @NotBlank(message = "用户名不为空")
-    @Size(max = 20, message = "用户名长度不得超过20")
-    private String userName;
-
+@Validated
+public class UserLoginDTO {
     @Size(max = 30, message = "密码长度不得超过30")
     @NotBlank(message = "密码不为空")
     private String password;
+
+    // 邮箱地址
+    @NotBlank(message = "邮箱不能为空")
+    @Email(message = "邮箱格式不正确")
+    private String email;
+
+
 }

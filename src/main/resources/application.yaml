@@ -27,3 +27,18 @@ qcloud:
   URL: https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/
   bucketName: jayma05-1326851618
 
+spring:
+  mail:
+    host: smtp.qq.com
+    username: 2664894562@qq.com
+    password: ENC(86S7x6gXjawtT5ZxqO53H5XJl+Zd8SPZOh7x8YvSvIgfX1GPcN9UlA==)
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    protocol: smtp
+    port: 587

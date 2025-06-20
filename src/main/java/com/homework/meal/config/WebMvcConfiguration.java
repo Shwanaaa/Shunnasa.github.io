@@ -50,7 +50,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                     .excludePathPatterns("/doc.html", "/webjars/**", "/v3/api-docs/**", "/swagger-resources/**")
                     .excludePathPatterns("/user/register")
                     .excludePathPatterns("/user/login")
-                    .excludePathPatterns("/user/hello")
+                    .excludePathPatterns("/user/sendRegisterEmailCode")
                     .addPathPatterns("/**");
 
         }

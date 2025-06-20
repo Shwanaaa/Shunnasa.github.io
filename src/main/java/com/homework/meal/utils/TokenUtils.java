@@ -49,11 +49,11 @@ public class TokenUtils {
      * 获取token信息
      *
      * @param key token
-     * @return uid和role的map
+     * @return uid的map
      */
     @SuppressWarnings("unchecked")
     private HashMap<String, Integer> retrieveToken(String key) {
-        return (HashMap<String, Integer>) redisUtils.get(key);
+        return (HashMap<String, Integer>)redisUtils.get(key);
     }
 
 
@@ -64,7 +64,13 @@ public class TokenUtils {
      * @return id
      */
     public int getTokenUid(String key) {
-        return retrieveToken(key).get("uid");
+        int uid;
+        try {
+            uid = retrieveToken(key).get("uid");
+        } catch (NullPointerException e) {
+            throw new ApiException("登录失效，请重新登录！");
+        }
+        return uid;
     }
 
     /**

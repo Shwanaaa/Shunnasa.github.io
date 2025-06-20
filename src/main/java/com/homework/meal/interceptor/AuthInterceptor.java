@@ -3,6 +3,7 @@ package com.homework.meal.interceptor;
 import com.alibaba.fastjson.JSON;
 import com.homework.meal.bean.JsonResponse;
 import com.homework.meal.utils.TokenUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 拦截器
  */
+@Slf4j
 public class AuthInterceptor implements HandlerInterceptor {
 
     public static final String TOKEN_HEADER = "Token";
@@ -33,12 +35,13 @@ public class AuthInterceptor implements HandlerInterceptor {
         response.setHeader("Content-type", "application/json;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        // Token 校验
-        String token = request.getHeader(TOKEN_HEADER);
-        if (token == null || token.isEmpty()) {
+        // 无token参数拒绝，放通的登录接口除外
+        if (request.getHeader(TOKEN_HEADER) == null || request.getHeader(TOKEN_HEADER).isEmpty()) {
             response.getWriter().write(JSON.toJSONString(JsonResponse.tokenError("用户未登录")));
             return false;
         }
+        // Token 校验
+        String token = request.getHeader(TOKEN_HEADER);
 
         try {
             int uid = tokenUtils.getTokenUid(token);
