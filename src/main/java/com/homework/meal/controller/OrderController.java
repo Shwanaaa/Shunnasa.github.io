@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.homework.meal.bean.JsonRequest;
 import com.homework.meal.bean.JsonResponse;
+import com.homework.meal.dto.OrderSubmitDTO;
 import com.homework.meal.exception.ApiException;
 import com.homework.meal.po.Menu;
 import com.homework.meal.po.Orders;
@@ -11,6 +12,7 @@ import com.homework.meal.service.MenuService;
 import com.homework.meal.service.OrdersService;
 import com.homework.meal.vo.MenuVO;
 import com.homework.meal.dto.ShoppingCartDTO;
+import com.homework.meal.vo.OrdersVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -83,6 +85,35 @@ public class OrderController extends BaseController{
 
         List<MenuVO> shoppingList = ordersService.getShoppingList(uid);
         return JsonResponse.success(shoppingList);
+    }
+
+    /**
+     * [O004]提交订单
+     * @param jsonRequest
+     * @return
+     */
+    @PostMapping("/orderSubmit")
+    public JsonResponse orderSubmit(@RequestBody JsonRequest<OrderSubmitDTO> jsonRequest){
+        OrderSubmitDTO data = jsonRequest.getData();
+        List<Integer> ids = data.getIds();
+        if(ids.isEmpty()) throw new ApiException("提交的订单为空！");
+
+        int uid = getUid();
+        ordersService.orderSubmit(uid, ids);
+
+        return JsonResponse.success("订单提交成功！");
+    }
+
+    /**
+     * [O005]获取历史订单
+     * @return
+     */
+    @GetMapping("/getHistoryOrders")
+    public JsonResponse<List<OrdersVO>> getHistoryOrders(){
+        int uid = getUid();
+
+        List<OrdersVO> historyOrders = ordersService.getHistoryOrders(uid);
+        return JsonResponse.success(historyOrders);
     }
 
 }

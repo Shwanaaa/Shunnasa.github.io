@@ -2,12 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.homework.meal.mapper.OrdersMapper">
 
+    <resultMap id="OrdersVOMap" type="com.homework.meal.vo.SingleOrderVO">
+        <result property="createTime" column="create_time"/>
+        <result property="cnt" column="cnt"/>
+        <result property="name" column="name"/>
+        <result property="price" column="price"/>
+    </resultMap>
+
     <select id="getShoppingList" resultType="com.homework.meal.vo.MenuVO">
         SELECT m.img, m.name, m.description, m.price, m.sales, m.type, m.id, o.cnt
         FROM orders o
         LEFT JOIN menu m
         ON m.id = o.mid
         WHERE o.uid = #{uid} AND o.deleted_at IS NULL AND o.status = 0
+        ORDER BY o.gmt_modified DESC
+    </select>
+
+    <select id="getHistoryOrders" resultMap="OrdersVOMap">
+        SELECT o.gmt_modified AS create_time, o.cnt, m.name, m.price
+        FROM orders o
+        JOIN menu m ON o.mid = m.id
+        WHERE o.status = 1 AND o.uid = #{uid}
         ORDER BY o.gmt_modified DESC
     </select>
 </mapper>

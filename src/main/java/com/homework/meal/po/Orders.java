@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -59,5 +60,10 @@ public class Orders implements Serializable {
     @TableField("cnt")
     private Integer cnt;
 
+    /**
+     * 修改时间
+     */
+    @TableField("gmt_modified")
+    private LocalDateTime gmt_modified;
 
 }

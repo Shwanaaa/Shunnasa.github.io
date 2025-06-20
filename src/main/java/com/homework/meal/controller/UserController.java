@@ -72,21 +72,15 @@ public class UserController extends BaseController{
 
     /**
      * [U003]上传图片
-     * @param files
+     * @param file
      * @return
      */
     @PostMapping("/uploadImg")
-    public JsonResponse<Object> uploadImg(@RequestParam("files") List<MultipartFile> files) {
-        List<String> urlList = new ArrayList<>();
-        if (files != null) {
-            for (MultipartFile multipartFile : files) {
-                String url = cosUtils.uploadPhoto(multipartFile);
-                urlList.add(url);
-            }
-        }
-        Map<String, Object> result = new HashMap<>();
-        result.put("url", urlList);
-        return JsonResponse.success(result);
+    public JsonResponse<Object> uploadImg(@RequestParam("file") MultipartFile file) {
+        String url = cosUtils.uploadPhoto(file);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("url", url);
+        return JsonResponse.success(map);
     }
 
     /**

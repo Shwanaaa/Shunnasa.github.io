@@ -8,7 +8,11 @@
         FROM menu m
         LEFT JOIN orders o
         ON m.id = o.mid AND o.uid = #{uid} AND o.deleted_at IS NULL
-        WHERE m.type = #{type}
+        <where>
+            <if test="type != null and type != '全部菜品'">
+                m.type = #{type}
+            </if>
+        </where>
     </select>
 
 </mapper>
