@@ -94,13 +94,21 @@ function validateForm(fields) {
 
 // API请求处理
 async function makeApiRequest(url, method, body) {
+    const headers = {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    };
+    
+    // 从localStorage获取token
+    const token = localStorage.getItem('token');
+    if (token) {
+        headers["Authorization"] =token;
+    }
+    
     const response = await fetch(`${API_BASE_URL}${url}`, {
         method,
-        headers: { 
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
-        body: JSON.stringify(body)
+        headers,
+        body: body ? JSON.stringify(body) : undefined
     });
     
     if (!response.ok) {
@@ -129,9 +137,13 @@ async function handleLogin(e) {
             data: { email, password }
         });
         
-        if (result.code === 200) {
-            // 存储token和用户信息
-            localStorage.setItem('token', result.data.token);
+       if (result.code === 200) {
+            // 确保token存在
+            if (!result.data?.token) {
+                throw new Error('登录成功但未返回token');
+            }
+            const token = result.data.token;
+            localStorage.setItem('token', token);
             localStorage.setItem('userEmail', email);
             
             // 跳转到订单页面
