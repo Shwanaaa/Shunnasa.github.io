@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.homework.meal.mapper.OrdersMapper">
+
+    <select id="getShoppingList" resultType="com.homework.meal.vo.MenuVO">
+        SELECT m.img, m.name, m.description, m.price, m.sales, m.type, m.id, o.cnt
+        FROM orders o
+        LEFT JOIN menu m
+        ON m.id = o.mid
+        WHERE o.uid = #{uid} AND o.deleted_at IS NULL AND o.status = 0
+        ORDER BY o.gmt_modified DESC
+    </select>
+</mapper>

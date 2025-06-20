@@ -2,12 +2,17 @@ package com.homework.meal.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.homework.meal.bean.JsonRequest;
 import com.homework.meal.bean.JsonResponse;
 import com.homework.meal.exception.ApiException;
 import com.homework.meal.po.Menu;
+import com.homework.meal.po.Orders;
 import com.homework.meal.service.MenuService;
+import com.homework.meal.service.OrdersService;
 import com.homework.meal.vo.MenuVO;
+import com.homework.meal.dto.ShoppingCartDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,18 +26,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/order")
 @RequiredArgsConstructor
-public class OrderController {
+public class OrderController extends BaseController{
 
     private final MenuService menuService;
 
+    private final OrdersService ordersService;
+
 
     /**
-     * 根据菜品类型获取菜品信息
+     * [O001]根据菜品类型获取菜品信息
      * @param type
      * @return
      */
-    @GetMapping("/getMenuByType/{type}")
-    public JsonResponse getMenuByType(@PathVariable String type){
+    @GetMapping("/getMenuByType")
+    public JsonResponse getMenuByType(@RequestParam("type") String type){
         if(type == null) throw new ApiException("菜品类型不为空");
 
         QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
@@ -40,14 +47,42 @@ public class OrderController {
         List<Menu> menus = menuService.list(queryWrapper);
         if(BeanUtil.isEmpty(menus)) return JsonResponse.success("无菜品信息");
 
-        ArrayList<MenuVO> menuVOS = new ArrayList<>();
-        for(Menu menu : menus){
-            MenuVO menuVO = new MenuVO();
-            BeanUtil.copyProperties(menu, menuVO);
-            menuVOS.add(menuVO);
-        }
+        int uid = getUid();
+        List<MenuVO> menuVOS = menuService.getMenuByType(uid, type);
 
         return JsonResponse.success(menuVOS);
+    }
+
+    /**
+     * [O002]加入购物车
+     * @param jsonRequest
+     * @return
+     */
+    @PostMapping("/addToShoppingList")
+    public JsonResponse addToShoppingList(@Validated @RequestBody JsonRequest<ShoppingCartDTO> jsonRequest){
+        ShoppingCartDTO data = jsonRequest.getData();
+        Integer mid = data.getId();
+        //添加或者减少数量 1--添加 0--减少
+        Integer type = data.getType();
+        Menu menu = menuService.getById(mid);
+        if(menu == null) throw new ApiException("商品不存在！");
+
+        int uid = getUid();
+
+        ordersService.addToShoppingList(mid, uid, type);
+        return JsonResponse.success("操作成功");
+    }
+
+    /**
+     * [O003]获取购物车清单
+     * @return
+     */
+    @GetMapping("/getShoppingList")
+    public JsonResponse<List<MenuVO>> getShoppingList(){
+        int uid = getUid();
+
+        List<MenuVO> shoppingList = ordersService.getShoppingList(uid);
+        return JsonResponse.success(shoppingList);
     }
 
 }

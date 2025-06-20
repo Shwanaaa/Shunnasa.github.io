@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.homework.meal.mapper.MenuMapper">
+
+    <select id="getMenuByType" resultType="com.homework.meal.vo.MenuVO">
+        SELECT m.img, m.name, m.description, m.price, m.sales, m.type, m.id,
+               IFNULL(o.cnt, 0) AS cnt
+        FROM menu m
+        LEFT JOIN orders o
+        ON m.id = o.mid AND o.uid = #{uid} AND o.deleted_at IS NULL
+        WHERE m.type = #{type}
+    </select>
+
+</mapper>

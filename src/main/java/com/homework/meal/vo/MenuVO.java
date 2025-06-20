@@ -11,6 +11,11 @@ import lombok.Data;
 @Data
 public class MenuVO {
     /**
+     * 菜品id
+     */
+    private Integer id;
+
+    /**
      * 菜品名
      */
     private String name;
@@ -39,4 +44,9 @@ public class MenuVO {
      * 菜品图
      */
     private String img;
+
+    /**
+     * 购物车中数量
+     */
+    private Integer cnt;
 }

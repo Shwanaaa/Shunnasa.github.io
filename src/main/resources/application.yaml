@@ -12,9 +12,10 @@ mybatis-plus:
   configuration:
    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
-   db-config:
-    logic-delete-value: now()
-    logic-not-delete-value: null
+    db-config:
+      logic-delete-field: deleted_at # 全局逻辑删除字段名
+      logic-delete-value: now() # 逻辑已删除值
+      logic-not-delete-value: null # 逻辑未删除值
 
 project:
   isDebug: true
@@ -27,6 +28,7 @@ qcloud:
   URL: https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/
   bucketName: jayma05-1326851618
 
+#邮箱配置
 spring:
   mail:
     host: smtp.qq.com
