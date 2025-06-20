@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,89 +8,92 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/login.css">
 </head>
+
 <body>
     <div class="logo">美味订餐</div>
-    
+
     <div class="container">
         <div class="left-panel">
             <h1>欢迎回来！</h1>
             <p>登录您的账户，开始轻松管理您的餐厅订单，跟踪客户偏好，并优化您的餐饮服务。</p>
         </div>
-        
+
         <div class="right-panel">
             <div class="form-container" id="formContainer">
                 <div class="form-toggle">
                     <button class="toggle-btn active" id="loginToggle">登录</button>
                     <button class="toggle-btn" id="registerToggle">注册</button>
                 </div>
-                
+
                 <div class="form" id="loginForm">
                     <h2>登录您的账户</h2>
                     <p>请输入您的账号信息</p>
-                    
+
                     <form id="loginFormElement">
-                        <div class="input-group">
-                            <i class="fas fa-user"></i>
-                            <input type="text" id="loginUsername" placeholder="用户名" required>
-                            <div class="error" id="loginUsernameError">请输入用户名</div>
+                        <div class="form-content">
+                            <div class="input-group">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="loginEmail" placeholder="邮箱" required>
+                                <div class="error" id="loginEmailError">请输入有效的邮箱地址</div>
+                            </div>
+
+                            <div class="input-group">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="loginPassword" placeholder="密码" required>
+                                <div class="error" id="loginPasswordError">请输入密码</div>
+                            </div>
+
+                            <div class="remember">
+                                <label>
+                                    <input type="checkbox" checked> 记住我
+                                </label>
+                                <a href="#">忘记密码?</a>
+                            </div>
+
+                            <button type="submit" class="btn">登录</button>
                         </div>
-                        
-                        <div class="input-group">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" id="loginPassword" placeholder="密码" required>
-                            <div class="error" id="loginPasswordError">请输入密码</div>
-                        </div>
-                        
-                        <div class="remember">
-                            <label>
-                                <input type="checkbox" checked> 记住我
-                            </label>
-                            <a href="#">忘记密码?</a>
-                        </div>
-                        
-                        <button type="submit" class="btn">登录</button>
                     </form>
-                    
-                    <div class="social-login">
-                        <p>或使用以下方式登录</p>
-                        <div class="social-icons">
-                            <a href="#"><i class="fab fa-google"></i></a>
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                        </div>
-                    </div>
                 </div>
-                
+
                 <div class="form" id="registerForm">
                     <h2>创建新账户</h2>
                     <p>填写以下信息注册新账户</p>
-                    
+
                     <form id="registerFormElement">
-                        <div class="input-group">
-                            <i class="fas fa-user"></i>
-                            <input type="text" id="registerUsername" placeholder="用户名" required>
-                            <div class="error" id="registerUsernameError">用户名至少4个字符</div>
+                        <div class="form-content">
+                            <div class="input-group">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="registerEmail" placeholder="邮箱" required>
+                                <div class="error" id="registerEmailError">请输入有效的邮箱地址</div>
+                            </div>
+
+                            <div class="input-group">
+                                <i class="fas fa-shield-alt"></i>
+                                <input type="text" id="registerVerificationCode" placeholder="验证码" required>
+                                <button type="button" class="send-code-btn" id="registerSendCodeBtn">获取验证码</button>
+                                <div class="error" id="registerVerificationCodeError">请输入验证码</div>
+                            </div>
+
+                            <div class="input-group">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="registerPassword" placeholder="密码" required>
+                                <div class="error" id="registerPasswordError">密码至少需要6个字符</div>
+                            </div>
+
+                            <div class="input-group">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="registerConfirmPassword" placeholder="确认密码" required>
+                                <div class="error" id="registerConfirmPasswordError">两次密码输入不一致</div>
+                            </div>
+
+                            <button type="submit" class="btn">注册</button>
                         </div>
-                        
-                        <div class="input-group">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" id="registerPassword" placeholder="密码" required>
-                            <div class="error" id="registerPasswordError">密码至少需要6个字符</div>
-                        </div>
-                        
-                        <div class="input-group">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" id="registerConfirmPassword" placeholder="确认密码" required>
-                            <div class="error" id="registerConfirmPasswordError">两次密码输入不一致</div>
-                        </div>
-                        
-                        <button type="submit" class="btn">注册</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
     <script src="./js/login.js"></script>
 </body>
+
 </html>
