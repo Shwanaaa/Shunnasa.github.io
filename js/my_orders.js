@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // 获取DOM元素
     const manageBtn = document.getElementById('manageOrdersBtn');
-    const orderItems = document.querySelectorAll('.order-item');
+    const orderList = document.querySelector('.order-list'); // 修改为类选择器
     const modal = document.getElementById('confirmationModal');
     const cancelBtn = document.getElementById('cancelDeleteBtn');
     const confirmBtn = document.getElementById('confirmDeleteBtn');
@@ -10,45 +10,131 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentOrderToDelete = null;
     let isManaging = false;
 
-    // 1. 管理订单按钮点击事件
-    manageBtn.addEventListener('click', function() {
-        isManaging = !isManaging;
-        
-        // 切换按钮文字
-        manageBtn.textContent = isManaging ? '完成管理' : '管理订单';
-        
-        // 切换所有订单的manage-mode类
-        orderItems.forEach(item => {
-            if (isManaging) {
-                item.classList.add('manage-mode');
+    // 初始化：获取订单数据
+    fetchOrders();
+
+    // 获取订单数据
+    function fetchOrders() {
+        // 显示加载状态
+        orderList.innerHTML = '<p>加载中...</p>';
+
+        fetch('http://8.134.154.79:8088/meal/order/getHistoryOrders', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                token: localStorage.getItem("token")
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('网络响应不正常');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.code === 200) {
+                console.log('后端返回的数据:', data);
+                renderOrders(data.data);
             } else {
-                item.classList.remove('manage-mode');
+                throw new Error(data.msg || '获取订单失败');
+            }
+        })
+        .catch(error => {
+            console.error('获取订单失败:', error);
+            orderList.innerHTML = `<p>加载失败: ${error.message}</p>`;
+            
+            // 如果是因为token无效，可以跳转到登录页
+            if (error.message.includes('未授权') || error.message.includes('token')) {
+                window.location.href = '/login.html';
             }
         });
-    });
+    }
 
-    // 2. 为每个订单的删除按钮添加点击事件
-    orderItems.forEach(item => {
-        const deleteBtn = item.querySelector('.delete-btn');
-        
-        deleteBtn.addEventListener('click', function(e) {
-            e.stopPropagation(); // 防止事件冒泡
-            currentOrderToDelete = item; // 保存当前要删除的订单
-            showModal(); // 显示确认对话框
+    // 渲染订单列表
+    function renderOrders(orders) {
+        if (!orders || orders.length === 0) {
+            orderList.innerHTML = '<p>暂无历史订单</p>';
+            return;
+        }
+
+        orderList.innerHTML = '';
+        orders.forEach(order => {
+            if (!order.name || !order.createTime || !order.price || !order.number) {
+                console.warn('订单数据不完整:', order);
+                return;
+            }
+
+            const orderItem = document.createElement('div');
+            orderItem.className = 'order-item';
+            orderItem.dataset.orderId = order.number;
+            
+            // 根据返回的数据格式直接使用name字段（已包含菜品信息）
+            orderItem.innerHTML = `
+                <h4>订单号: ${order.number}</h4>
+                <div class="order-info">
+                    <div>
+                        <p><strong>下单时间: </strong>${order.createTime}</p>
+                        <p><strong>菜品: </strong>${order.name}</p>
+                    </div>
+                    <div>
+                        <p><strong>总价: </strong><span style="color: #ff4d4f; font-weight: bold;">¥${order.price.toFixed(2)}</span></p>
+                        <p><strong>状态: </strong><span class="order-status status-completed">已完成</span></p>
+                    </div>
+                </div>
+                <button class="delete-btn">删除</button>
+            `;
+            
+            orderList.appendChild(orderItem);
         });
-    });
+
+        // 重新绑定事件监听器
+        setupEventListeners();
+    }
+
+    // 设置事件监听器
+    function setupEventListeners() {
+        const orderItems = document.querySelectorAll('.order-item');
+        
+        // 1. 管理订单按钮点击事件
+        manageBtn.addEventListener('click', function() {
+            isManaging = !isManaging;
+            
+            // 切换按钮文字
+            manageBtn.textContent = isManaging ? '完成管理' : '管理订单';
+            
+            // 切换所有订单的manage-mode类
+            orderItems.forEach(item => {
+                if (isManaging) {
+                    item.classList.add('manage-mode');
+                } else {
+                    item.classList.remove('manage-mode');
+                }
+            });
+        });
+
+        // 2. 为每个订单的删除按钮添加点击事件
+        orderItems.forEach(item => {
+            const deleteBtn = item.querySelector('.delete-btn');
+            
+            deleteBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                currentOrderToDelete = item;
+                showModal();
+            });
+        });
+    }
 
     // 3. 显示确认对话框
     function showModal() {
         modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // 防止背景滚动
+        document.body.style.overflow = 'hidden';
     }
 
     // 4. 隐藏确认对话框
     function hideModal() {
         modal.style.display = 'none';
-        document.body.style.overflow = ''; // 恢复滚动
-        currentOrderToDelete = null; // 清除当前要删除的订单
+        document.body.style.overflow = '';
+        currentOrderToDelete = null;
     }
 
     // 5. 取消删除按钮事件
@@ -62,7 +148,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 检查是否还有订单
             if (document.querySelectorAll('.order-item').length === 0) {
-                // 如果没有订单了，退出管理模式
                 isManaging = false;
                 manageBtn.textContent = '管理订单';
             }
