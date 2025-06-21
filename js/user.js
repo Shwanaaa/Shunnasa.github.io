@@ -94,13 +94,22 @@ function fillUserData(userData) {
                            (userData.gender === '女' ? 'female' : '');
     }
 
-    // 4. 更新头部用户信息（关键修改2：新增这部分）
-    updateElementText('.user span', userData.userName);
+     // 4.更新头像（关键修改：拼接COS路径）
     if (userData.avatar) {
-        document.querySelectorAll('.user-avatar img, .user img').forEach(img => {
-            img.src = userData.avatar;
-        });
-    }
+  console.log('原始头像URL:', userData.avatar);
+  const avatarUrl = processImageUrl(userData.avatar);
+  console.log('处理后头像URL:', avatarUrl);
+  
+  const finalUrl = avatarUrl.includes('?') ? 
+                  `${avatarUrl}&t=${Date.now()}` : 
+                  `${avatarUrl}?t=${Date.now()}`;
+  console.log('最终头像URL:', finalUrl);
+
+  document.querySelectorAll('.user-avatar img, .user img').forEach(img => {
+    img.src = finalUrl;
+    console.log('当前img.src:', img.src); // 调试输出
+  });
+}
 
     console.log('[fill] 数据填充完成');
 }
@@ -161,13 +170,13 @@ async function saveUserInfo() {
         const result = await response.json();
         
          if (result.code === 200) {
-                const avatarUrl = result.data?.avatarUrl;
+                const avatarUrl = processImageUrl(result.data?.avatarUrl); // 使用统一处理函数
                 if (avatarUrl) {
                     document.querySelectorAll('.user-avatar img, .user img').forEach(img => {
                         img.src = `${avatarUrl}?t=${Date.now()}`;
                     });
                 }
-                alert(result.msg || '头像上传成功');
+                        alert(result.msg || '头像上传成功');
             } else {
                 alert(result.msg || '头像上传失败');
             }
@@ -177,6 +186,26 @@ async function saveUserInfo() {
     }
 }
 
+// 统一处理图片URL
+function processImageUrl(url) {
+  if (!url) return null;
+
+  // 替换旧域名
+  if (url.startsWith('http://8.134.154.79:8088/')) {
+    return url.replace(
+      'http://8.134.154.79:8088/',
+      'https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/'
+    );
+  }
+
+  // 如果不是完整的 URL（不以 http 开头），则添加前缀
+  if (!url.startsWith('http')) {
+    return `https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/${url.replace(/^\//, '')}`;
+  }
+
+  // 其他情况（如 https 或其他域名），直接返回原 URL
+  return url;
+}
 // 头像上传处理
 function handleAvatarUpload() {
     const token = localStorage.getItem('token');
@@ -220,19 +249,12 @@ function handleAvatarUpload() {
             if (!uploadResult.data?.url) {
                 throw new Error('服务器未返回有效的图片URL');
             }
+            
+            let imageUrl = uploadResult.data?.url || '';
+            console.log('上传返回的原始URL:', imageUrl);
+            imageUrl = processImageUrl(imageUrl);
+            console.log('上传处理后URL:', imageUrl);
 
-           // 构造完整的图片URL并移除文件扩展名
-            let imageUrl = uploadResult.data.url;
-
-            // 先移除URL中的文件扩展名
-            imageUrl = imageUrl.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '');
-
-            // 然后拼接基础URL（如果不是完整URL）
-            if (!imageUrl.startsWith('http')) {
-                imageUrl = `http://8.134.154.79:8088/${imageUrl.replace(/^\//, '')}`;
-            }
-
-            console.log('最终图片URL:', imageUrl);
 
             // 第二步：将图片URL传给修改头像接口
             console.log('正在更新头像URL...');
