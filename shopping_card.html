@@ -13,7 +13,7 @@
     <div class="header">
         <div class="w">
             <!-- logo部分 -->
-            <div class="logo"><img src="img/logo2.png"></div>
+            <div class="logo"></div>
 
             <!-- 导航栏部分 -->
             <div class="nav">
@@ -42,10 +42,6 @@
     <div class="w cart-container">
         <div class="cart-header">
             <h2><i class="fas fa-shopping-cart"></i> 我的购物车</h2>
-            <div class="cart-actions">
-                <button class="btn btn-outline"><i class="fas fa-arrow-left"></i> 继续购物</button>
-                <button class="btn btn-primary"><i class="fas fa-sync-alt"></i> 更新购物车</button>
-            </div>
         </div>
         
         <div class="cart-items" id="cartItems">
@@ -121,27 +117,14 @@
                 </div>
             </div>
         </div>
-        
-        <div class="checkout-section">
-            <h2 class="checkout-header"><i class="fas fa-receipt"></i> 订单摘要</h2>
-            <div class="summary-item">
-                <span class="summary-label">商品小计 (3件)</span>
-                <span class="summary-value">￥228.00</span>
-            </div>
-            <div class="summary-item">
-                <span class="summary-label">配送费</span>
-                <span class="summary-value">￥8.00</span>
-            </div>
-            <div class="summary-item">
-                <span class="summary-label">优惠折扣</span>
-                <span class="summary-value">-￥20.00</span>
-            </div>
-            <div class="summary-item">
-                <span class="summary-label">总计</span>
-                <span class="summary-value total">￥216.00</span>
-            </div>
-        </div>
     </div>
+
+<div class="cart-summary">
+    <div class="summary-total">
+        <span>总计：</span>
+        <span class="total">￥0.00</span>
+    </div>
+</div>
 
     <!-- 结算按钮 -->
     <button class="checkout-btn" id="checkoutBtn">

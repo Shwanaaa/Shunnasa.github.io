@@ -129,7 +129,7 @@ async function addToCart(dishId) {
     const requestData = {
       data: {
         id: dishId,
-        type: 0,
+        type: 1,
       }
     };
 
