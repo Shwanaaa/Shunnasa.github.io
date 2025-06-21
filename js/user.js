@@ -195,31 +195,48 @@ function handleAvatarUpload() {
         }
 
         const formData = new FormData();
-        formData.append('files', file);  // 注意参数名是files不是avatar
+        formData.append('file', file);
 
         try {
             // 第一步：上传图片到COS获取URL
             console.log('正在上传图片到COS...');
-            const uploadResponse = await fetch('https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/user/uploadImg', {
+            const uploadResponse = await fetch(`${API_BASE_URL}/uploadImg`, {
                 method: 'POST',
                 headers: {
-                    "token": token
+                    "token": token,
                 },
                 body: formData
             });
 
+            if (!uploadResponse.ok) {
+                const errorData = await uploadResponse.json().catch(() => ({}));
+                throw new Error(errorData.msg || `上传失败: HTTP ${uploadResponse.status}`);
+            }
+            
             const uploadResult = await uploadResponse.json();
-            console.log('COS上传结果:', uploadResult);
+            console.log('完整上传响应:', uploadResult);
 
-            if (!uploadResponse.ok || !uploadResult.data || !uploadResult.data.url) {
-                throw new Error(uploadResult.msg || '图片上传失败');
+            // 检查返回的URL路径
+            if (!uploadResult.data?.url) {
+                throw new Error('服务器未返回有效的图片URL');
             }
 
-            const imageUrl = uploadResult.data.url;
-            console.log('获取到的图片URL:', imageUrl);
+           // 构造完整的图片URL并移除文件扩展名
+            let imageUrl = uploadResult.data.url;
+
+            // 先移除URL中的文件扩展名
+            imageUrl = imageUrl.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '');
+
+            // 然后拼接基础URL（如果不是完整URL）
+            if (!imageUrl.startsWith('http')) {
+                imageUrl = `http://8.134.154.79:8088/${imageUrl.replace(/^\//, '')}`;
+            }
+
+            console.log('最终图片URL:', imageUrl);
 
             // 第二步：将图片URL传给修改头像接口
             console.log('正在更新头像URL...');
+
             const avatarResponse = await fetch(`${API_BASE_URL}/avatarModify`, {
                 method: 'POST',
                 headers: {
@@ -227,20 +244,20 @@ function handleAvatarUpload() {
                     "token": token
                 },
                 body: JSON.stringify({
-                    avatarUrl: imageUrl
+                    data:{avatarUrl: imageUrl} // 确保字段名与后端一致
                 })
             });
 
             const avatarResult = await avatarResponse.json();
-            console.log('头像更新结果:', avatarResult);
+            console.log('头像更新结果：', avatarResult);
 
-            if (avatarResponse.ok && avatarResult.code === 200) {
+            if (avatarResult.code === 200) {  // 修改判断条件
                 // 更新头像显示
                 const timestamp = Date.now();
                 document.querySelectorAll('.user-avatar img, .user img').forEach(img => {
-                    img.src = `${imageUrl}?t=${timestamp}`; // 添加时间戳防止缓存
+                    img.src = `${imageUrl}?t=${timestamp}`;
                 });
-                alert('头像更新成功');
+                alert(avatarResult.msg || '头像更新成功');
             } else {
                 throw new Error(avatarResult.msg || '头像更新失败');
             }
@@ -248,7 +265,6 @@ function handleAvatarUpload() {
             console.error("头像上传失败:", error);
             alert(error.message || '头像上传失败，请重试');
         } finally {
-            // 重置文件输入，允许重复选择同一文件
             fileInput.value = '';
         }
     });
