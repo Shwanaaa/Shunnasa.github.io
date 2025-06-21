@@ -3,6 +3,7 @@ let allDishes = [];
 
 function getApiType(frontendType) {
   const typeMap = {
+    all: "全部菜品",
     chinese: "中式快餐",
     western: "西式汉堡",
     japanese: "日式料理",
@@ -54,10 +55,20 @@ menuLinks.forEach((link) => {
 
 // 渲染菜品列表
 function renderDishes(dishes) {
-  console.log("正在渲染菜品:", dishes); // 调试用
+  // console.log("正在渲染菜品:", dishes); // 调试用
 
     // 验证原始数据中的ID类型
-  console.log("原始数据ID类型:", dishes.map(d => typeof d.id));
+  // console.log("原始数据ID类型:", dishes.map(d => typeof d.id));
+
+  // 调试代码 - 打印前3个菜品的URL转换结果
+  dishes.slice(0, 3).forEach(dish => {
+    const original = dish.img;
+    const processed = original ? `https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/${original.replace(/^\//, '')}` : null;
+    console.log('URL转换:', { 
+      原始路径: original,
+      处理后: processed 
+    });
+  });
 
   const dishesContainer = document.querySelector(".dish-list");
   if (!dishesContainer) {
@@ -71,28 +82,36 @@ function renderDishes(dishes) {
   }
 
  dishesContainer.innerHTML = dishes
-  .map(
-    (dish) => `
-  <div class="dish-card" data-category="${dish.type}">
-    ${dish.img ? `<img src="${dish.img}" alt="${dish.name}">` : '<div class="no-image">暂无图片</div>'}
-    <div class="dish-header">
-      <h4>${dish.name}</h4>
-      <span>￥${dish.price?.toFixed(2) || "0.00"}</span>
-      <button class="cart-btn-small" data-dish="${dish.name}" data-dish-id="${dish.id}"></button>
-    </div> 
-    <div class="dish-info">
-      <span>${dish.type || "未分类"}</span> • ${dish.sales ?? 0}人已购买
-    </div>
-    <p class="dish-desc">${dish.description || "暂无描述"}</p>
-  </div>
-`
-  )
-  .join("");
+    .map((dish) => {
+      // 处理图片URL - 拼接基础URL
+      const imgUrl = dish.img 
+        ? `https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/${dish.img.replace(/^\//, '')}` 
+        : null;
+      
+      return `
+        <div class="dish-card" data-category="${dish.type}">
+          ${imgUrl 
+            ? `<img src="${imgUrl}" alt="${dish.name}" 
+                 onerror="this.onerror=null;this.src='default-dish.jpg'">` 
+            : '<div class="no-image">暂无图片</div>'}
+          <div class="dish-header">
+            <h4>${dish.name}</h4>
+            <span>￥${dish.price?.toFixed(2) || "0.00"}</span>
+            <button class="cart-btn-small" data-dish="${dish.name}" data-dish-id="${dish.id}"></button>
+          </div>
+          <div class="dish-info">
+            <span>${dish.type || "未分类"}</span> • ${dish.sales ?? 0}人已购买
+          </div>
+          <p class="dish-desc">${dish.description || "暂无描述"}</p>
+        </div>
+      `;
+    })
+    .join("");
 
   // 验证渲染后的ID类型
   const renderedIds = Array.from(document.querySelectorAll(".cart-btn-small"))
     .map(btn => typeof btn.dataset.dishId);
-  console.log("渲染后ID类型:", renderedIds);
+  // console.log("渲染后ID类型:", renderedIds);
 
   // 重新绑定购物车按钮事件
   bindCartButtons();
@@ -205,10 +224,12 @@ if (isNaN(dishId) || !Number.isInteger(dishId) || dishId <= 0) {
 // ];
 
 // 获取菜品数据
-async function fetchDishes(type = "vegan") {
+async function fetchDishes(type = "all") {
   try {
-    const apiType = type === "all" ? "" : getApiType(type);
-    const url = `http://8.134.154.79:8088/meal/order/getMenuByType?type=${apiType}`;
+    const apiType = getApiType(type); 
+    const url = `http://8.134.154.79:8088/meal/order/getMenuByType?type=${encodeURIComponent(apiType)}`;
+
+    console.log('正在请求URL:', url); // 记录请求的完整URL
     
     const response = await fetch(url, {
       headers: { 
@@ -217,7 +238,10 @@ async function fetchDishes(type = "vegan") {
       }
     });
 
+    console.log('响应状态:', response.status); // 记录HTTP状态码
+
     const result = await response.json();
+    console.log('完整响应数据:', result); // 记录完整的响应数据
 
     if (response.ok && result.code === 200 && Array.isArray(result.data)) {
         // 验证并确保所有ID是整数
@@ -230,14 +254,6 @@ async function fetchDishes(type = "vegan") {
       });
       
       renderDishes(allDishes);
-    }
-    
-    if (response.ok && result.code === 200 && Array.isArray(result.data)) {
-      allDishes = result.data;
-      renderDishes(allDishes);
-    } else {
-      // 直接显示错误提示，不尝试加载默认数据
-      showError(result.msg || "获取菜品数据失败");
     }
   } catch (error) {
     console.error("获取菜品数据出错:", error);
@@ -258,6 +274,26 @@ function showError(message) {
   }
 }
 
+// 统一处理图片URL
+function processImageUrl(url) {
+  if (!url) return null;
+
+  // 替换旧域名
+  if (url.includes('8.134.154.79')) {
+    return url.replace(
+      /http:\/\/8\.134\.154\.79(:8088)?\//,
+      'https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/'
+    );
+  }
+
+  // 如果不是完整的 URL（不以 http 开头），则添加前缀
+  if (!url.startsWith('http')) {
+    return `https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/${url.replace(/^\//, '')}`;
+  }
+
+  return url;
+}
+
 // 更新用户信息
 async function updateUserInfo() {
   try {
@@ -272,21 +308,43 @@ async function updateUserInfo() {
       }
     );
 
-    if (response.ok) {
-      const result = await response.json();
-      if (result.code === 200 && result.data) {
-        // 更新头部用户信息
-        const userElement = document.querySelector(".user span");
-        if (userElement) {
-          userElement.textContent = result.data.userName;
-        }
+    if (!response.ok) {
+      throw new Error(`请求失败: ${response.status}`);
+    }
 
-        // 更新头像（如果有）
-        const avatarElement = document.querySelector(".user img");
-        if (avatarElement && result.data.avatarUrl) {
-          avatarElement.src = result.data.avatarUrl;
-        }
+    const result = await response.json();
+    console.log('用户信息响应:', result); // 调试日志
+
+    if (result.code === 200 && result.data) {
+      // 更新头部用户信息
+      const userElement = document.querySelector(".user span");
+      if (userElement) {
+        userElement.textContent = result.data.userName || '未设置用户名';
       }
+
+      // 更新头像（如果有）
+      const avatarElement = document.getElementById("header-avatar");
+      if (avatarElement) {
+        if (result.data.avatar) {
+          const processedUrl = processImageUrl(result.data.avatar);
+          const finalUrl = `${processedUrl}?t=${Date.now()}`;
+          avatarElement.src = finalUrl;
+          console.log('头像更新成功:', finalUrl);
+          
+          // 错误处理
+          avatarElement.onerror = () => {
+            console.error('头像加载失败，使用默认头像');
+            avatarElement.src = './img/user.png';
+          };
+        } else {
+          console.warn('头像URL为空，使用默认头像');
+          avatarElement.src = './img/user.png';
+        }
+      } else {
+        console.error('未找到头像元素');
+      }
+    } else {
+      console.error('获取用户信息失败:', result.msg);
     }
   } catch (error) {
     console.error("更新用户信息失败:", error);
@@ -301,9 +359,15 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // 默认加载 "素食轻食" 分类
-  fetchDishes("vegan"); // 改为明确请求有效分类
-  updateUserInfo();
+  // 设置默认选中"全部菜品"
+    const defaultLink = document.querySelector('.menu-index ul li a[data-category="all"]');
+    if (defaultLink) {
+        defaultLink.classList.add("active");
+    }
+
+    // 默认加载全部菜品
+    fetchDishes("all");
+    updateUserInfo();
 
   // 分类点击事件（保持原有逻辑）
   const menuLinks = document.querySelectorAll(".menu-index ul li a");
