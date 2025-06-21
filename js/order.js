@@ -106,6 +106,17 @@ async function addToCart(dishId) {
       throw new Error("无效的菜品ID格式");
     }
 
+    // 准备要发送的数据
+    const requestData = {
+      data: {
+        id: dishId,
+        type: 0,
+      }
+    };
+
+    // 打印要发送给后端的数据
+    console.log("发送给后端的数据:", JSON.stringify(requestData, null, 2));
+
     const response = await fetch(
       "http://8.134.154.79:8088/meal/order/addToShoppingList",
       {
@@ -114,10 +125,7 @@ async function addToCart(dishId) {
           token: localStorage.getItem("token"),
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          dishId: dishId,
-          quantity: 1,
-        }),
+        body: JSON.stringify(requestData),
       }
     );
 
