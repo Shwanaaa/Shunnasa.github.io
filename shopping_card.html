@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="./css/common.css">
     <link rel="stylesheet" href="./css/shopping_card.css">
 </head>
+
 <body>
     <!-- 头部区域 -->
     <div class="header">
@@ -43,92 +45,21 @@
         <div class="cart-header">
             <h2><i class="fas fa-shopping-cart"></i> 我的购物车</h2>
         </div>
-        
+
         <div class="cart-items" id="cartItems">
-            <!-- 商品1 -->
-            <div class="cart-item selected">
-                <div class="item-selector">
-                    <input type="checkbox" checked>
-                </div>
-                <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=600&q=80" 
-                     alt="老坛酸菜鱼饭" class="cart-item-img">
-                <div class="cart-item-info">
-                    <h3 class="cart-item-title">老坛酸菜鱼饭</h3>
-                    <p class="cart-item-desc">老坛酸菜搭配嫩滑鱼片，酸辣开胃，搭配香米饭一绝</p>
-                    <div class="cart-item-bottom">
-                        <div class="cart-item-price">￥85.00</div>
-                        <div style="display: flex; align-items: center;">
-                            <div class="cart-item-controls">
-                                <button class="quantity-btn decrease">-</button>
-                                <span class="quantity-display">1</span>
-                                <button class="quantity-btn increase">+</button>
-                            </div>
-                            <button class="remove-btn"><i class="fas fa-trash-alt"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 商品2 -->
-            <div class="cart-item selected">
-                <div class="item-selector">
-                    <input type="checkbox" checked>
-                </div>
-                <img src="https://images.unsplash.com/photo-1598866594230-a7c12756260f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=600&q=80" 
-                     alt="黑椒牛柳意面" class="cart-item-img">
-                <div class="cart-item-info">
-                    <h3 class="cart-item-title">黑椒牛柳意面</h3>
-                    <p class="cart-item-desc">精选牛柳搭配黑椒酱炒制，搭配劲道意面，附赠例汤</p>
-                    <div class="cart-item-bottom">
-                        <div class="cart-item-price">￥69.00</div>
-                        <div style="display: flex; align-items: center;">
-                            <div class="cart-item-controls">
-                                <button class="quantity-btn decrease">-</button>
-                                <span class="quantity-display">2</span>
-                                <button class="quantity-btn increase">+</button>
-                            </div>
-                            <button class="remove-btn"><i class="fas fa-trash-alt"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 商品3 -->
-            <div class="cart-item selected">
-                <div class="item-selector">
-                    <input type="checkbox" checked>
-                </div>
-                <img src="https://images.unsplash.com/photo-1582878826629-29b7b1e16b9d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=600&q=80" 
-                     alt="泰式冬阴功汤" class="cart-item-img">
-                <div class="cart-item-info">
-                    <h3 class="cart-item-title">泰式冬阴功汤</h3>
-                    <p class="cart-item-desc">泰国特色香料熬制汤底，搭配鲜虾、蘑菇，酸辣浓郁</p>
-                    <div class="cart-item-bottom">
-                        <div class="cart-item-price">￥59.00</div>
-                        <div style="display: flex; align-items: center;">
-                            <div class="cart-item-controls">
-                                <button class="quantity-btn decrease">-</button>
-                                <span class="quantity-display">1</span>
-                                <button class="quantity-btn increase">+</button>
-                            </div>
-                            <button class="remove-btn"><i class="fas fa-trash-alt"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
-<div class="cart-summary">
-    <div class="summary-total">
-        <span>总计：</span>
-        <span class="total">￥0.00</span>
+    <div class="cart-summary">
+        <div class="summary-total">
+            <span>总计：</span>
+            <span class="total">￥0.00</span>
+        </div>
     </div>
-</div>
 
-    <!-- 结算按钮 -->
+    <!-- 提交订单按钮 -->
     <button class="checkout-btn" id="checkoutBtn">
-        <i class="fas fa-cash-register"></i> 结算订单 <span class="badge">3</span>
+        <i class="fas fa-cash-register"></i> 提交订单 <span class="badge">3</span>
     </button>
 
     <!-- 页脚 - 与首页保持一致 -->
@@ -170,4 +101,5 @@
     </div>
 </body>
 <script src="./js/shopping_card.js"></script>
+
 </html>
