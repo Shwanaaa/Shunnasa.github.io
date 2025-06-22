@@ -44,7 +44,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     @Override
     public void addToShoppingList(Integer mid, Integer uid, Integer type) {
         QueryWrapper<Orders> ordersQueryWrapper = new QueryWrapper<>();
-        ordersQueryWrapper.eq("mid", mid);
+        ordersQueryWrapper.eq("mid", mid)
+                .eq("uid", uid)
+                .ne("status", 1);
         Orders order = ordersMapper.selectOne(ordersQueryWrapper);
 
         //添加过购物车的情况
