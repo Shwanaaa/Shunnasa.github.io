@@ -15,8 +15,8 @@ let registerTimer = null;
 // 初始化事件监听
 function initEventListeners() {
     //默认激活注册页面
-    document.getElementById('registerForm').classList.add('active');
-    registerToggle.classList.add('active');
+    document.getElementById('loginForm').classList.add('active');
+    loginToggle.classList.add('active');
 
     // 表单切换
     loginToggle.addEventListener('click', () => {
