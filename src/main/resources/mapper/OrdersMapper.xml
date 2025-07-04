@@ -14,7 +14,7 @@
         FROM orders o
         LEFT JOIN menu m
         ON m.id = o.mid
-        WHERE o.uid = #{uid} AND o.deleted_at IS NULL AND o.status = 0
+        WHERE o.uid = #{uid} AND o.status = 0 AND o.deleted_at IS NULL
         ORDER BY o.gmt_modified DESC
     </select>
 
@@ -22,7 +22,7 @@
         SELECT o.gmt_modified AS create_time, o.cnt, m.name, m.price
         FROM orders o
         JOIN menu m ON o.mid = m.id
-        WHERE o.status = 1 AND o.uid = #{uid}
+        WHERE o.uid = #{uid} AND o.status = 1 AND o.deleted_at IS NULL
         ORDER BY o.gmt_modified DESC
     </select>
 </mapper>
