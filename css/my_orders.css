@@ -74,7 +74,7 @@ a {
 }
 
 .nav ul li {
-  margin: 0 5px;//修改了头部导航的间距
+  margin: 0 5px;
 }
 
 .nav ul li a {
@@ -212,120 +212,4 @@ a {
     background-color: #fff7e6;
     color: #fa8c16;
     border: 1px solid #ffd591;
-}
-
-/* 管理按钮样式 */
-.manage-btn {
-    background-color: #fcbe11;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s;
-}
-
-.manage-btn:hover {
-    background-color: #f9b400;
-}
-
-/* 删除按钮样式 */
-.delete-btn {
-    display: none;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: #ff4d4f;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s;
-}
-
-.delete-btn:hover {
-    background-color: #ff7875;
-}
-
-
-.order-item.manage-mode .delete-btn {
-    display: block;
-}
-
-.order-item.manage-mode .delete-btn {
-  display: block;
-}
-
-.order-item.manage-mode {
-  padding-right: 180px;
-}
-
-/* 确认模态框样式 */
-.confirmation-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 2000;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    max-width: 90%;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.modal-content h3 {
-    margin-bottom: 15px;
-    color: #333;
-}
-
-.modal-content p {
-    color: #666;
-    margin-bottom: 20px;
-}
-
-.modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-.modal-actions button {
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s;
-}
-
-.confirm-btn {
-    background-color: #ff4d4f;
-    color: white;
-    border: none;
-}
-
-.confirm-btn:hover {
-    background-color: #ff7875;
-}
-
-.cancel-btn {
-    background-color: #f0f0f0;
-    border: 1px solid #d9d9d9;
-    color: #666;
-}
-
-.cancel-btn:hover {
-    background-color: #e6e6e6;
 }

@@ -44,7 +44,6 @@
 <div class="w">
     <div style="margin-top: 80px; display: flex; justify-content: space-between; align-items: center;">
         <h2>我的订单</h2>
-        <button id="manageOrdersBtn" class="manage-btn">管理订单</button>
     </div>
     <div class="order-list">
         <!-- 订单示例 -->
@@ -60,7 +59,6 @@
                     <p><strong>状态：</strong><span class="order-status status-completed">已完成</span></p>
                 </div>
             </div>
-            <button class="delete-btn">删除</button>
         </div>
         <div class="order-item" data-order-id="20240102002">
             <h4>订单编号：20240102002</h4>
@@ -78,18 +76,6 @@
         </div>
     </div>
 </div>
-
-<!-- 确认删除模态框 -->
-    <div class="confirmation-modal" id="confirmationModal">
-        <div class="modal-content">
-            <h3>确认删除订单</h3>
-            <p>您确定要删除这个订单吗？此操作不可撤销。</p>
-            <div class="modal-actions">
-                <button class="cancel-btn" id="cancelDeleteBtn">取消</button>
-                <button class="confirm-btn" id="confirmDeleteBtn">确认删除</button>
-            </div>
-        </div>
-    </div>
 
     
 </body>
