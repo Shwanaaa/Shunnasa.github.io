@@ -6,8 +6,8 @@
         SELECT m.img, m.name, m.description, m.price, m.sales, m.type, m.id,
                IFNULL(o.cnt, 0) AS cnt
         FROM menu m
-        LEFT JOIN orders o
-        ON m.id = o.mid AND o.uid = #{uid} AND o.deleted_at IS NULL
+        LEFT JOIN (SELECT uid, mid, cnt FROM orders WHERE uid = #{uid} AND status = 0 AND deleted_at IS NULL) o
+        ON m.id = o.mid
         <where>
             <if test="type != null and type != '全部菜品'">
                 m.type = #{type}

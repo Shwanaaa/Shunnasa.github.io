@@ -38,4 +38,9 @@ public class UserInfoVO {
      * 个人简介
      */
     private String introduction;
+
+    /**
+     * 邮箱
+     */
+    private String email;
 }

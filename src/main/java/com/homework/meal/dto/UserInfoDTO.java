@@ -3,6 +3,8 @@ package com.homework.meal.dto;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 /**
@@ -24,4 +26,9 @@ public class UserInfoDTO {
 
     @Size(max = 11, min = 11, message = "手机号格式错误！")
     private String phone;
+
+    @NotBlank(message = "邮箱不能为空")
+    @Email(message = "邮箱格式不正确")
+    private String email;
+
 }
