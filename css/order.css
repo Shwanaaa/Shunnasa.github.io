@@ -172,7 +172,7 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 15px 15px 10px;
+    margin: 15px 10px 15px;
 }
 
 .dish-header h4 {
@@ -198,33 +198,6 @@ a {
     font-size: 12px;
     color: #666;
     line-height: 1.4;
-}
-
-/* 购物车按钮 */
-.cart-btn-small {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-image: url('../img/card.jpg');
-    background-size: cover;
-    background-position: center;
-    border: none;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-}
-
-.cart-btn-small:hover {
-    transform: scale(1.1);
-}
-
-.cart-btn-small.clicked {
-    animation: pulse 0.3s ease;
 }
 
 .error-message {
@@ -344,4 +317,63 @@ a {
     .links dl {
         margin-left: 30px;
     }
+}
+
+
+/* 新增的购物车数量控制样式 */
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 80px; 
+  justify-content: flex-end; 
+}
+
+.quantity-btn {
+  width: 28px; 
+  height: 28px;
+  border-radius: 50%;
+  background-color: #fcbe11;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.quantity-display {
+  min-width: 24px; 
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.quantity-btn:hover {
+  background-color: #ff7c2d;
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  border-radius: 4px;
+  color: white;
+  background-color: #4CAF50;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.toast-error {
+  background-color: #f44336;
+}
+
+.toast.fade-out {
+  opacity: 0;
 }

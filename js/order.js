@@ -1,5 +1,5 @@
-// 全局变量存储菜品数据
-let allDishes = [];
+let allDishes = []; // 全局变量存储菜品数据
+let cartItems = {}; // 全局变量存储购物车数据
 
 function getApiType(frontendType) {
   const typeMap = {
@@ -16,21 +16,6 @@ function getApiType(frontendType) {
   };
   return typeMap[frontendType] || frontendType;
 }
-// 加入购物车功能
-const cartBtns = document.querySelectorAll(".cart-btn-small");
-
-cartBtns.forEach((button) => {
-  button.addEventListener("click", () => {
-    const dishName = button.dataset.dish;
-    alert(`已将 ${dishName} 加入购物车！`);
-
-    // 添加点击动画效果
-    button.classList.add("clicked");
-    setTimeout(() => {
-      button.classList.remove("clicked");
-    }, 300);
-  });
-});
 
 // 菜单分类筛选
 const menuLinks = document.querySelectorAll(".menu-index ul li a");
@@ -55,21 +40,6 @@ menuLinks.forEach((link) => {
 
 // 渲染菜品列表
 function renderDishes(dishes) {
-  // console.log("正在渲染菜品:", dishes); // 调试用
-
-    // 验证原始数据中的ID类型
-  // console.log("原始数据ID类型:", dishes.map(d => typeof d.id));
-
-  // 调试代码 - 打印前3个菜品的URL转换结果
-  dishes.slice(0, 3).forEach(dish => {
-    const original = dish.img;
-    const processed = original ? `https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/${original.replace(/^\//, '')}` : null;
-    console.log('URL转换:', { 
-      原始路径: original,
-      处理后: processed 
-    });
-  });
-
   const dishesContainer = document.querySelector(".dish-list");
   if (!dishesContainer) {
     console.error("渲染时无法找到.dish-list元素");
@@ -88,53 +58,175 @@ function renderDishes(dishes) {
         ? `https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/${dish.img.replace(/^\//, '')}` 
         : null;
       
+      const cartQuantity = cartItems[dish.id]?.quantity || 0;
+
       return `
-        <div class="dish-card" data-category="${dish.type}">
-          ${imgUrl 
-            ? `<img src="${imgUrl}" alt="${dish.name}" 
-                 onerror="this.onerror=null;this.src='default-dish.jpg'">` 
-            : '<div class="no-image">暂无图片</div>'}
-          <div class="dish-header">
-            <h4>${dish.name}</h4>
-            <span>￥${dish.price?.toFixed(2) || "0.00"}</span>
-            <button class="cart-btn-small" data-dish="${dish.name}" data-dish-id="${dish.id}"></button>
-          </div>
-          <div class="dish-info">
-            <span>${dish.type || "未分类"}</span> • ${dish.sales ?? 0}人已购买
-          </div>
-          <p class="dish-desc">${dish.description || "暂无描述"}</p>
-        </div>
-      `;
+  <div class="dish-card" data-category="${dish.type}" data-dish-id="${dish.id}">
+    ${imgUrl 
+      ? `<img src="${imgUrl}" alt="${dish.name}" 
+           onerror="this.onerror=null;this.src='default-dish.jpg'">` 
+      : '<div class="no-image">暂无图片</div>'}
+    <div class="dish-header">
+      <h4>${dish.name}</h4>
+      <span>￥${dish.price?.toFixed(2) || "0.00"}</span>
+      <div class="quantity-control">
+    <button class="quantity-btn minus-btn" data-dish-id="${dish.id}" ${cartQuantity <= 0 ? 'disabled' : ''}>-</button>
+    <span class="quantity-display">${cartQuantity}</span>
+    <button class="quantity-btn plus-btn" data-dish-id="${dish.id}">+</button>
+  </div>
+    </div>
+    <div class="dish-info">
+      <span>${dish.type || "未分类"}</span> • ${dish.sales ?? 0}人已购买
+    </div>
+    <p class="dish-desc">${dish.description || "暂无描述"}</p>
+  </div>
+`;
     })
     .join("");
 
-  // 验证渲染后的ID类型
-  const renderedIds = Array.from(document.querySelectorAll(".cart-btn-small"))
-    .map(btn => typeof btn.dataset.dishId);
-  // console.log("渲染后ID类型:", renderedIds);
+  // 绑定商品选购显示按钮事件
+  bindQuantityButtons();
+}
 
-  // 重新绑定购物车按钮事件
-  bindCartButtons();
+// 绑定加减按钮事件
+function bindQuantityButtons() {
+  // 先移除旧的事件监听器，防止重复绑定
+  document.querySelectorAll('.plus-btn, .minus-btn').forEach(btn => {
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+  });
+
+  // 加号按钮
+  document.querySelectorAll('.plus-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const dishId = parseInt(btn.dataset.dishId);
+      btn.disabled = true;
+      try {
+        await updateCartQuantity(dishId, 1);
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  });
+
+  // 减号按钮
+  document.querySelectorAll('.minus-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const dishId = parseInt(btn.dataset.dishId);
+      const currentQuantity = cartItems[dishId]?.quantity || 0;
+      if (currentQuantity <= 0) return;
+      
+      btn.disabled = true;
+      try {
+        await updateCartQuantity(dishId, -1);
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  });
+}
+
+// 更新购物车数量
+async function updateCartQuantity(dishId, change) {
+  try {
+    await fetchCartItems();
+
+    const currentQuantity = cartItems[dishId]?.quantity || 0;
+    const newQuantity = currentQuantity + change;
+    
+    if (newQuantity < 0) return; // 防止负数
+
+    // 获取菜品信息
+    const dish = allDishes.find(d => d.id === dishId);
+    if (!dish) {
+      throw new Error("找不到对应菜品");
+    }
+
+    // 调用接口
+    const success = await addToCart(dishId, change > 0 ? 1 : 0);
+    
+    if (success) {
+      // 更新本地购物车数据
+      if (newQuantity === 0) {
+        delete cartItems[dishId];
+        showToast(`${dish.name}已从购物车移除`);
+      } else {
+        cartItems[dishId] = {
+          quantity: newQuantity,
+          name: dish.name,
+          price: dish.price
+        };
+        showToast(change > 0 
+          ? `${dish.name}已添加到购物车` 
+          : `${dish.name}已从购物车减少`);
+      }
+    
+      // 更新UI
+      updateCartUI(dishId, newQuantity);
+      
+      // 更新购物车总数显示
+      updateCartTotal();
+    }
+  } catch (error) {
+    console.error("更新购物车数量失败:", error);
+    showToast(`操作失败: ${error.message}`, 'error');
+  }
+}
+
+//商品总数更新
+function updateCartTotal() {
+  const total = Object.values(cartItems).reduce((sum, item) => sum + item.quantity, 0);
+  const cartTotalElement = document.querySelector('.cart-total');
+  if (cartTotalElement) {
+    cartTotalElement.textContent = total > 0 ? total : '';
+  }
+}
+
+// 添加提示框
+function showToast(message, type = 'success') {
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.textContent = message;
+  
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.classList.add('fade-out');
+    setTimeout(() => toast.remove(), 500);
+  }, 2000);
+}
+
+// 更新UI显示
+function updateCartUI(dishId, quantity) {
+  // 更新数量显示
+  const quantityDisplays = document.querySelectorAll(`.dish-card[data-dish-id="${dishId}"] .quantity-display`);
+  quantityDisplays.forEach(display => {
+    display.textContent = quantity;
+  });
+
+  // 更新减号按钮状态
+  const minusButtons = document.querySelectorAll(`.dish-card[data-dish-id="${dishId}"] .minus-btn`);
+  minusButtons.forEach(btn => {
+    btn.disabled = quantity <= 0;
+  });
 }
 
 // 添加到购物车
-async function addToCart(dishId) {
+async function addToCart(dishId, type = 1) {
   try {
     dishId = Number(dishId);
     if (isNaN(dishId)) {
       throw new Error("无效的菜品ID格式");
     }
 
-    // 准备要发送的数据
     const requestData = {
       data: {
         id: dishId,
-        type: 1,
+        type: type
       }
     };
-
-    // 打印要发送给后端的数据
-    console.log("发送给后端的数据:", JSON.stringify(requestData, null, 2));
 
     const response = await fetch(
       "http://8.134.154.79:8088/meal/order/addToShoppingList",
@@ -150,55 +242,17 @@ async function addToCart(dishId) {
 
     const result = await response.json();
     if (response.ok && result.code === 200) {
+      await fetchCartItems();
       return true;
     } else {
-      throw new Error(result.msg || "添加购物车失败");
+      throw new Error(result.msg || "操作失败");
     }
   } catch (error) {
-    console.error("添加购物车出错:", error);
-    alert(error.message);
-    return false;
+    console.error("操作失败:", error);
+    throw error;
   }
 }
 
-// 购物车按钮事件
-function bindCartButtons() {
-  document.querySelectorAll(".cart-btn-small").forEach((button) => {
-    button.addEventListener("click", async (e) => {
-      e.stopPropagation();
-      const dishId = parseInt(button.dataset.dishId, 10);
-      const dishName = button.dataset.dish;
-
-if (isNaN(dishId) || !Number.isInteger(dishId) || dishId <= 0) {
-        console.error("无效的菜品ID:", button.dataset.dishId);
-        alert("菜品ID无效，必须是正整数");
-        return;
-      }
-
- try {
-        // 显示加载状态
-        button.disabled = true;
-        button.classList.add("loading");
-        
-        const success = await addToCart(dishId);
-        if (success) {
-          alert(`已将 ${dishName} 加入购物车！`);
-          button.classList.add("clicked");
-          setTimeout(() => {
-            button.classList.remove("clicked");
-            button.disabled = false;
-            button.classList.remove("loading");
-          }, 300);
-        }
-      } catch (error) {
-        console.error("添加购物车失败:", error);
-        button.disabled = false;
-        button.classList.remove("loading");
-        alert(`添加失败: ${error.message}`);
-      }
-    });
-  });
-}
 
 // 默认菜品数据
 // const DEFAULT_DISHES = [
@@ -222,6 +276,41 @@ if (isNaN(dishId) || !Number.isInteger(dishId) || dishId <= 0) {
 //   },
 //   // 添加更多默认菜品...
 // ];
+
+// 在页面加载时获取购物车数据
+async function fetchCartItems() {
+  try {
+    const response = await fetch(
+      "http://8.134.154.79:8088/meal/order/getShoppingList",
+      {
+        method: "GET",
+        headers: {
+          token: localStorage.getItem("token"),
+          "Accept": "application/json",
+        },
+      }
+    );
+
+    const result = await response.json();
+    if (response.ok && result.code === 200 && Array.isArray(result.data)) {
+      // 转换购物车数据格式
+      cartItems = {};
+      result.data.forEach(item => {
+        cartItems[item.id] = {
+          quantity: item.cnt || item.quantity || 0,
+          name: item.name
+        };
+      });
+      console.log('购物车数据里的数据已同步:', cartItems);
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error("获取购物车数据失败:", error);
+    showToast("获取购物车数据失败，请刷新重试", 'error');
+    return false;
+  }
+}
 
 // 获取菜品数据
 async function fetchDishes(type = "all") {
@@ -352,32 +441,34 @@ async function updateUserInfo() {
 }
 
 // 页面加载时初始化
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
   if (!token) {
     window.location.href = "login.html";
     return;
   }
 
-  // 设置默认选中"全部菜品"
+  try {
+    // 先获取购物车数据
+    await fetchCartItems();
+    
+    // 更新购物车总数显示
+    updateCartTotal();
+
+    // 设置默认选中"全部菜品"
     const defaultLink = document.querySelector('.menu-index ul li a[data-category="all"]');
     if (defaultLink) {
-        defaultLink.classList.add("active");
+      defaultLink.classList.add("active");
     }
 
     // 默认加载全部菜品
-    fetchDishes("all");
-    updateUserInfo();
-
-  // 分类点击事件（保持原有逻辑）
-  const menuLinks = document.querySelectorAll(".menu-index ul li a");
-  menuLinks.forEach((link) => {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      menuLinks.forEach((item) => item.classList.remove("active"));
-      link.classList.add("active");
-      const category = link.dataset.category;
-      fetchDishes(category); // 直接调用接口
-    });
-  });
+    await fetchDishes("all");
+    await updateUserInfo();
+    
+    // 确保按钮事件绑定
+    bindQuantityButtons();
+  } catch (error) {
+    console.error("初始化失败:", error);
+    showToast("页面初始化失败，请刷新重试", 'error');
+  }
 });
