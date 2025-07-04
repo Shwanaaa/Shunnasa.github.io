@@ -52,8 +52,8 @@
 }
 
 .nav ul li a.active {
-    color: #050505;
-    border-bottom: none;
+    color: #ff7c2d; 
+    border-bottom: 2px solid #fcbe11;
 }
 
 .nav ul li a:hover {
