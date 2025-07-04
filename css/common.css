@@ -51,12 +51,12 @@
     transition: all 0.3s;
 }
 
-.nav ul li a:hover {
-    color: #ff7c2d;
-    border-bottom: 2px solid #fcbe11;
+.nav ul li a.active {
+    color: #050505;
+    border-bottom: none;
 }
 
-.nav ul li a.active {
+.nav ul li a:hover {
     color: #ff7c2d;
     border-bottom: 2px solid #fcbe11;
 }
