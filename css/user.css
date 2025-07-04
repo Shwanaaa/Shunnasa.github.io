@@ -1,3 +1,7 @@
+body {
+    margin-top: 100px;
+}
+
 .user-container {
     margin-top: 80px;
     display: flex;
@@ -86,6 +90,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 20px;
+    height: 100%;
 }
 
 .section-title {

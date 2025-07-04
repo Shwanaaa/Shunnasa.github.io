@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 初始化：获取订单数据
     fetchOrders();
+    updateUserInfo();
 
     // 获取订单数据
     function fetchOrders() {
@@ -49,6 +50,83 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // 统一处理图片URL
+function processImageUrl(url) {
+  if (!url) return null;
+
+  // 替换旧域名
+  if (url.includes('8.134.154.79')) {
+    return url.replace(
+      /http:\/\/8\.134\.154\.79(:8088)?\//,
+      'https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/'
+    );
+  }
+
+  // 如果不是完整的 URL（不以 http 开头），则添加前缀
+  if (!url.startsWith('http')) {
+    return `https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/${url.replace(/^\//, '')}`;
+  }
+
+  return url;
+}
+
+// 更新用户信息
+async function updateUserInfo() {
+  try {
+    const response = await fetch(
+      "http://8.134.154.79:8088/meal/user/getUserInfo",
+      {
+        method: "GET",
+        headers: {
+          token: localStorage.getItem("token"),
+          Accept: "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`请求失败: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('用户信息响应:', result); // 调试日志
+
+    if (result.code === 200 && result.data) {
+      // 更新头部用户信息
+      const userElement = document.querySelector(".user span");
+      if (userElement) {
+        userElement.textContent = result.data.userName || '未设置用户名';
+      }
+
+      // 更新头像（如果有）
+     const avatarElement = document.querySelector(".user img");
+      if (avatarElement) {
+        if (result.data.avatar) {
+          const processedUrl = processImageUrl(result.data.avatar);
+          const finalUrl = `${processedUrl}?t=${Date.now()}`;
+          avatarElement.src = finalUrl;
+          console.log('头像更新成功:', finalUrl);
+          
+          // 错误处理
+          avatarElement.onerror = () => {
+            console.error('头像加载失败，使用默认头像');
+            avatarElement.src = './img/user.png';
+          };
+        } else {
+          console.warn('头像URL为空，使用默认头像');
+          avatarElement.src = './img/user.png';
+        }
+      } else {
+        console.error('未找到头像元素');
+      }
+    } else {
+      console.error('获取用户信息失败:', result.msg);
+    }
+  } catch (error) {
+    console.error("更新用户信息失败:", error);
+  }
+}
 
     // 渲染订单列表
     function renderOrders(orders) {
@@ -153,33 +231,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             hideModal();
-            
-            // 这里可以添加AJAX请求来同步服务器数据
-            // deleteOrderFromServer(currentOrderToDelete.dataset.orderId);
         }
     });
 
-    // 7. 点击模态框外部关闭
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            hideModal();
-        }
-    });
+    // // 7. 点击模态框外部关闭
+    // modal.addEventListener('click', function(e) {
+    //     if (e.target === modal) {
+    //         hideModal();
+    //     }
+    // });
 
-    // 8. 按ESC键关闭模态框
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal.style.display === 'flex') {
-            hideModal();
-        }
-    });
+    // // 8. 按ESC键关闭模态框
+    // document.addEventListener('keydown', function(e) {
+    //     if (e.key === 'Escape' && modal.style.display === 'flex') {
+    //         hideModal();
+    //     }
+    // });
 });
-
-// 模拟从服务器删除订单的函数
-function deleteOrderFromServer(orderId) {
-    console.log('正在删除订单:', orderId);
-    // 实际项目中这里应该是AJAX请求
-    // fetch(`/api/orders/${orderId}`, { method: 'DELETE' })
-    //     .then(response => response.json())
-    //     .then(data => console.log('删除成功', data))
-    //     .catch(error => console.error('删除失败:', error));
-}

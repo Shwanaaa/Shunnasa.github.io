@@ -78,7 +78,7 @@ function fillUserData(userData) {
 
    // 1. 更新侧边栏信息
     updateElementText('.user-info .user-name', userData.userName);
-    updateElementText('.user-id', `ID: ${userData.userId || ''}`);
+    // updateElementText('.user-id', `ID: ${userData.userId || ''}`);
 
     // 2. 更新表单数据
     updateInputValue('input[name="userName"]', userData.userName);
@@ -184,6 +184,63 @@ async function saveUserInfo() {
         console.error("头像上传失败:", error);
         alert('头像上传失败，请重试');
     }
+}
+
+// 更新用户信息
+async function updateUserInfo() {
+  try {
+    const response = await fetch(
+      "http://8.134.154.79:8088/meal/user/getUserInfo",
+      {
+        method: "GET",
+        headers: {
+          token: localStorage.getItem("token"),
+          Accept: "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`请求失败: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('用户信息响应:', result); // 调试日志
+
+    if (result.code === 200 && result.data) {
+      // 更新头部用户信息
+      const userElement = document.querySelector(".user span");
+      if (userElement) {
+        userElement.textContent = result.data.userName || '未设置用户名';
+      }
+
+      // 更新头像（如果有）
+      const avatarElement = document.getElementById("header-avatar");
+      if (avatarElement) {
+        if (result.data.avatar) {
+          const processedUrl = processImageUrl(result.data.avatar);
+          const finalUrl = `${processedUrl}?t=${Date.now()}`;
+          avatarElement.src = finalUrl;
+          console.log('头像更新成功:', finalUrl);
+          
+          // 错误处理
+          avatarElement.onerror = () => {
+            console.error('头像加载失败，使用默认头像');
+            avatarElement.src = './img/user.png';
+          };
+        } else {
+          console.warn('头像URL为空，使用默认头像');
+          avatarElement.src = './img/user.png';
+        }
+      } else {
+        console.error('未找到头像元素');
+      }
+    } else {
+      console.error('获取用户信息失败:', result.msg);
+    }
+  } catch (error) {
+    console.error("更新用户信息失败:", error);
+  }
 }
 
 // 统一处理图片URL
@@ -332,10 +389,11 @@ function setupLogout() {
 }
 
 // 初始化
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async() => {
     initUserData();
     handleAvatarUpload();
     setupLogout();
+    await updateUserInfo();
 
     // 保存按钮事件
     saveBtn.addEventListener('click', saveUserInfo);

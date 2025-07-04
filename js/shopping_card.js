@@ -1,37 +1,3 @@
-// 购物车数据
-// const cartItems = [
-//   {
-//     id: 1,
-//     name: "老坛酸菜鱼饭",
-//     price: 85.0,
-//     image:
-//       "https://images.unsplash.com/photo-1585032226651-759b368d7246?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=600&q=80",
-//     desc: "老坛酸菜搭配嫩滑鱼片，酸辣开胃，搭配香米饭一绝",
-//     quantity: 1,
-//     selected: true,
-//   },
-//   {
-//     id: 2,
-//     name: "黑椒牛柳意面",
-//     price: 69.0,
-//     image:
-//       "https://images.unsplash.com/photo-1598866594230-a7c12756260f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=600&q=80",
-//     desc: "精选牛柳搭配黑椒酱炒制，搭配劲道意面，附赠例汤",
-//     quantity: 2,
-//     selected: true,
-//   },
-//   {
-//     id: 3,
-//     name: "泰式冬阴功汤",
-//     price: 59.0,
-//     image:
-//       "https://images.unsplash.com/photo-1582878826629-29b7b1e16b9d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=600&q=80",
-//     desc: "泰国特色香料熬制汤底，搭配鲜虾、蘑菇，酸辣浓郁",
-//     quantity: 1,
-//     selected: true,
-//   },
-// ];
-
 let cartItems = [];
 
 // API基础配置
@@ -77,6 +43,83 @@ function showToast(message, type = "info") {
       document.body.removeChild(toast);
     }, 300);
   }, 3000);
+}
+
+// 更新用户信息
+async function updateUserInfo() {
+  try {
+    const response = await fetch(
+      "http://8.134.154.79:8088/meal/user/getUserInfo",
+      {
+        method: "GET",
+        headers: {
+          token: localStorage.getItem("token"),
+          Accept: "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`请求失败: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('用户信息响应:', result); // 调试日志
+
+    if (result.code === 200 && result.data) {
+      // 更新头部用户信息
+      const userElement = document.querySelector(".user span");
+      if (userElement) {
+        userElement.textContent = result.data.userName || '未设置用户名';
+      }
+
+      // 更新头像（如果有）
+     const avatarElement = document.querySelector(".user img");
+      if (avatarElement) {
+        if (result.data.avatar) {
+          const processedUrl = processImageUrl(result.data.avatar);
+          const finalUrl = `${processedUrl}?t=${Date.now()}`;
+          avatarElement.src = finalUrl;
+          console.log('头像更新成功:', finalUrl);
+          
+          // 错误处理
+          avatarElement.onerror = () => {
+            console.error('头像加载失败，使用默认头像');
+            avatarElement.src = './img/user.png';
+          };
+        } else {
+          console.warn('头像URL为空，使用默认头像');
+          avatarElement.src = './img/user.png';
+        }
+      } else {
+        console.error('未找到头像元素');
+      }
+    } else {
+      console.error('获取用户信息失败:', result.msg);
+    }
+  } catch (error) {
+    console.error("更新用户信息失败:", error);
+  }
+}
+
+// 统一处理图片URL
+function processImageUrl(url) {
+  if (!url) return null;
+
+  // 替换旧域名
+  if (url.includes('8.134.154.79')) {
+    return url.replace(
+      /http:\/\/8\.134\.154\.79(:8088)?\//,
+      'https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/'
+    );
+  }
+
+  // 如果不是完整的 URL（不以 http 开头），则添加前缀
+  if (!url.startsWith('http')) {
+    return `https://jayma05-1326851618.cos.ap-guangzhou.myqcloud.com/${url.replace(/^\//, '')}`;
+  }
+
+  return url;
 }
 
 // 获取购物车数据
@@ -373,6 +416,7 @@ checkoutBtn.addEventListener("click", function () {
       alert("提交订单时出错，请重试");
     });
 });
+
 // 初始化购物车
 renderCart();
 
@@ -392,6 +436,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 初始化获取购物车数据
   fetchCart();
+  updateUserInfo();
 });
 
 // 获取购物车数据
