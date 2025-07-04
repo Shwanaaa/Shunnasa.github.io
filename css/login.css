@@ -119,29 +119,12 @@ body {
     min-height: 0; /* 添加这个防止flex项溢出 */
 }
 
-#loginForm {
-    opacity: 1;
+#loginForm, #registerForm {
+  display: none;
 }
 
-#registerForm {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    opacity: 0;
-    pointer-events: none;
-    height: 100%;
-}
-
-.register-mode #loginForm {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.register-mode #registerForm {
-    position: relative;
-    opacity: 1;
-    pointer-events: all;
+#loginForm.active, #registerForm.active {
+  display: flex; 
 }
 
 .form-content {

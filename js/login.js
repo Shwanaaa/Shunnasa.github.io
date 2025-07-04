@@ -14,15 +14,23 @@ let registerTimer = null;
 
 // 初始化事件监听
 function initEventListeners() {
+    //默认激活注册页面
+    document.getElementById('registerForm').classList.add('active');
+    registerToggle.classList.add('active');
+
     // 表单切换
     loginToggle.addEventListener('click', () => {
-        formContainer.classList.remove('register-mode');
+        document.getElementById('loginForm').classList.add('active');
+        document.getElementById('registerForm').classList.remove('active');
+
         loginToggle.classList.add('active');
         registerToggle.classList.remove('active');
     });
     
     registerToggle.addEventListener('click', () => {
-        formContainer.classList.add('register-mode');
+        document.getElementById('registerForm').classList.add('active');
+        document.getElementById('loginForm').classList.remove('active');
+
         registerToggle.classList.add('active');
         loginToggle.classList.remove('active');
     });
