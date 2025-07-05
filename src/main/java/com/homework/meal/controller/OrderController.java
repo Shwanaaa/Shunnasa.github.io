@@ -66,6 +66,7 @@ public class OrderController extends BaseController{
         Integer mid = data.getId();
         //添加或者减少数量 1--添加 0--减少
         Integer type = data.getType();
+        if(type == null || (type != 0 && type != 1)) throw new ApiException("操作指令错误，0或1");
         Menu menu = menuService.getById(mid);
         if(menu == null) throw new ApiException("商品不存在！");
 
@@ -121,7 +122,7 @@ public class OrderController extends BaseController{
      * @param setType
      * @return
      */
-    @GetMapping("getMenuBySetType/{setType}")
+    @GetMapping("/getMenuBySetType/{setType}")
     public JsonResponse<List<MenuVO>> getMenuBySetType(@PathVariable("setType") Integer setType){
         if(setType == null) throw new ApiException("套餐种类不为空");
         int uid = getUid();
@@ -129,6 +130,25 @@ public class OrderController extends BaseController{
         List<MenuVO> menuBySetType = menuService.getMenuBySetType(uid, setType);
         return JsonResponse.success(menuBySetType);
 
+    }
+
+
+    /**
+     * [O007]套餐加购
+     * @param jsonRequest
+     * @return
+     */
+    @PostMapping("/addSetToShoppingList")
+    public JsonResponse addSetToShoppingList(@Validated @RequestBody JsonRequest<ShoppingCartDTO> jsonRequest){
+        ShoppingCartDTO data = jsonRequest.getData();
+        Integer setId = data.getId();
+        //添加或者减少数量 1--添加 0--减少
+        Integer type = data.getType();
+        if(type == null || (type != 0 && type != 1)) throw new ApiException("操作指令错误，0或1");
+        int uid = getUid();
+
+        ordersService.addSetToShoppingList(setId, uid, type);
+        return JsonResponse.success("操作成功");
     }
 
 }

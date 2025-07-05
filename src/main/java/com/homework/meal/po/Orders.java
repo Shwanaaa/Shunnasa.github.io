@@ -66,4 +66,10 @@ public class Orders implements Serializable {
     @TableField("gmt_modified")
     private LocalDateTime gmt_modified;
 
+    /**
+     * 套餐id
+     */
+    @TableField("set_meal_id")
+    private Integer setMealId;
+
 }

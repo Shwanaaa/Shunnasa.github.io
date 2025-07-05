@@ -36,15 +36,17 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
 
     private final MenuMapper menuMapper;
 
+
     /**
-     * 加入购物清单
-     * @param mid
-     * @param type 0--减少数量 1--增加数量
+     * 通用购物车
+     * @param addType
+     * @param idChose
+     * @param uid
+     * @param type
      */
-    @Override
-    public void addToShoppingList(Integer mid, Integer uid, Integer type) {
+    public void addToShoppingListCommon(String addType, Integer idChose, Integer uid, Integer type) {
         QueryWrapper<Orders> ordersQueryWrapper = new QueryWrapper<>();
-        ordersQueryWrapper.eq("mid", mid)
+        ordersQueryWrapper.eq(addType, idChose)
                 .eq("uid", uid)
                 .ne("status", 1);
         Orders order = ordersMapper.selectOne(ordersQueryWrapper);
@@ -54,10 +56,11 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             if(type == 0) throw new ApiException("未添加过购物车，删除操作失败");
             Orders newOrder = Orders.builder()
                     .cnt(1)
-                    .mid(mid)
                     .uid(uid)
                     .status(0)
                     .build();
+            if(addType.equals("mid")) newOrder.setMid(idChose);
+            else newOrder.setSetMealId(idChose);
             ordersMapper.insert(newOrder);
             return;
         }
@@ -81,6 +84,37 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         }
         //更新记录
         updateById(order);
+
+    }
+
+    /**
+     * 单个菜品加入购物车
+     * @param mid
+     * @param uid
+     * @param type
+     */
+    @Override
+    public void addToShoppingList(Integer mid, Integer uid, Integer type) {
+        try {
+            addToShoppingListCommon("mid", mid, uid, type);
+        } catch (Exception e) {
+            throw new ApiException("操作失败");
+        }
+    }
+
+    /**
+     * 套餐购物车加购
+     * @param setId
+     * @param uid
+     * @param type
+     */
+    @Override
+    public void addSetToShoppingList(Integer setId, int uid, Integer type) {
+        try {
+            addToShoppingListCommon("set_meal_id", setId, uid, type);
+        } catch (Exception e) {
+            throw new ApiException("操作失败");
+        }
 
     }
 
@@ -175,5 +209,6 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
                 }
         ).collect(Collectors.toList());
     }
+
 
 }

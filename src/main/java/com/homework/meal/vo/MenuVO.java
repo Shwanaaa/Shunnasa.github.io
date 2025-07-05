@@ -49,4 +49,9 @@ public class MenuVO {
      * 购物车中数量
      */
     private Integer cnt;
+
+    /**
+     * 套餐id
+     */
+    private Integer setMealId;
 }

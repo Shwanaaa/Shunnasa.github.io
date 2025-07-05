@@ -4,7 +4,7 @@
 
     <select id="getMenuByType" resultType="com.homework.meal.vo.MenuVO">
         SELECT m.img, m.name, m.description, m.price, m.sales, m.type, m.id,
-               IFNULL(o.cnt, 0) AS cnt
+               IFNULL(o.cnt, 0) AS cnt, o.set_meal_id
         FROM menu m
         LEFT JOIN (SELECT uid, mid, cnt FROM orders WHERE uid = #{uid} AND status = 0 AND deleted_at IS NULL) o
         ON m.id = o.mid
@@ -15,11 +15,11 @@
         </where>
     </select>
     <select id="getMenuBySetType" resultType="com.homework.meal.vo.MenuVO">
-        SELECT m.img, m.name, m.description, m.price, m.sales, m.type, m.id,
+        SELECT m.img, m.name, m.description, m.price, m.sales, m.type, m.id, m.set_type AS setMealId,
         IFNULL(o.cnt, 0) AS cnt
         FROM menu m
-        LEFT JOIN (SELECT uid, mid, cnt FROM orders WHERE uid = #{uid} AND status = 0 AND deleted_at IS NULL) o
-        ON m.id = o.mid
+        LEFT JOIN (SELECT uid, mid, cnt, set_meal_id FROM orders WHERE uid = #{uid} AND status = 0 AND set_meal_id IS NOT NULL AND deleted_at IS NULL) o
+        ON m.set_type = o.set_meal_id
         WHERE m.set_type = #{setType}
     </select>
 

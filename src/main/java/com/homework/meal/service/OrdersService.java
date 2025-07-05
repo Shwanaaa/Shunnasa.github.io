@@ -26,4 +26,7 @@ public interface OrdersService extends IService<Orders> {
 
     //获取历史订单
     List<OrdersVO> getHistoryOrders(int uid);
+
+    //套餐购物车加购
+    void addSetToShoppingList(Integer setId, int uid, Integer type);
 }
