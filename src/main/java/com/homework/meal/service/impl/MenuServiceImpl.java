@@ -32,4 +32,15 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         List<MenuVO> menus = menuMapper.getMenuByType(uid, type);
         return menus;
     }
+
+    /**
+     * 根据套餐种类获取菜品
+     * @param setType
+     * @return
+     */
+    @Override
+    public List<MenuVO> getMenuBySetType(Integer uid, Integer setType) {
+        List<MenuVO> menus = menuMapper.getMenuBySetType(uid, setType);
+        return menus;
+    }
 }

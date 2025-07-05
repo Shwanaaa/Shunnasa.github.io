@@ -16,4 +16,6 @@ import java.util.List;
 @Mapper
 public interface MenuMapper extends BaseMapper<Menu> {
     List<MenuVO> getMenuByType(@Param("uid") int uid, @Param("type") String type);
+
+    List<MenuVO> getMenuBySetType(@Param("uid") Integer uid, @Param("setType")Integer setType);
 }

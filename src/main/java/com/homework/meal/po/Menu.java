@@ -67,4 +67,10 @@ public class Menu implements Serializable {
     @TableField("img")
     private String img;
 
+    /**
+     * 套餐种类
+     */
+    @TableField("set_type")
+    private Integer setType;
+
 }

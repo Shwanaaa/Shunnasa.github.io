@@ -14,5 +14,13 @@
             </if>
         </where>
     </select>
+    <select id="getMenuBySetType" resultType="com.homework.meal.vo.MenuVO">
+        SELECT m.img, m.name, m.description, m.price, m.sales, m.type, m.id,
+        IFNULL(o.cnt, 0) AS cnt
+        FROM menu m
+        LEFT JOIN (SELECT uid, mid, cnt FROM orders WHERE uid = #{uid} AND status = 0 AND deleted_at IS NULL) o
+        ON m.id = o.mid
+        WHERE m.set_type = #{setType}
+    </select>
 
 </mapper>

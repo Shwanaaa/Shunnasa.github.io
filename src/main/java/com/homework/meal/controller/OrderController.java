@@ -116,4 +116,19 @@ public class OrderController extends BaseController{
         return JsonResponse.success(historyOrders);
     }
 
+    /**
+     * [O006]根据套餐种类展示套餐详情
+     * @param setType
+     * @return
+     */
+    @GetMapping("getMenuBySetType/{setType}")
+    public JsonResponse<List<MenuVO>> getMenuBySetType(@PathVariable("setType") Integer setType){
+        if(setType == null) throw new ApiException("套餐种类不为空");
+        int uid = getUid();
+
+        List<MenuVO> menuBySetType = menuService.getMenuBySetType(uid, setType);
+        return JsonResponse.success(menuBySetType);
+
+    }
+
 }
