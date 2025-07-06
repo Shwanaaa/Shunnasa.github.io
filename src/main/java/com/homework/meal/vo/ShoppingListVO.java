@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @Author: JM
  * @Date: 2025-07-05-13:41
- * @Description:
+ * @Description: 购物车清单vo
  */
 
 @Data

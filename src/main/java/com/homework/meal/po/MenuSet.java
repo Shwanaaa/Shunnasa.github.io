@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 /**
  * @Author: JM
  * @Date: 2025-07-05-14:03
- * @Description:
+ * @Description: 套餐类
  */
 @Data
 @AllArgsConstructor

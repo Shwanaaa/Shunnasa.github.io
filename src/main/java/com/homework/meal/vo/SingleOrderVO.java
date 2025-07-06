@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 /**
  * @Author: JM
  * @Date: 2025-06-20-19:37
- * @Description:
+ * @Description: 历史订单初处理vo
  */
 @Data
 public class SingleOrderVO {

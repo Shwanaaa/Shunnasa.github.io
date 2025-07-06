@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * @Author: JM
  * @Date: 2025-06-19-20:48
- * @Description: 订单信息
+ * @Description: 购物车/订单
  */
 @Data
 @AllArgsConstructor

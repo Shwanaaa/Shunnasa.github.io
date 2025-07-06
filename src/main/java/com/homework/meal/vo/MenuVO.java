@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * @Author: JM
  * @Date: 2025-06-19-23:48
- * @Description:
+ * @Description: 菜品展示vo
  */
 @Data
 @Builder

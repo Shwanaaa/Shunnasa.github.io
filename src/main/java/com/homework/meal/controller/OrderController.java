@@ -57,7 +57,7 @@ public class OrderController extends BaseController{
     }
 
     /**
-     * [O002]加入购物车
+     * [O002]普通单品加入购物车
      * @param jsonRequest
      * @return
      */
@@ -91,6 +91,7 @@ public class OrderController extends BaseController{
 
     /**
      * [O004]提交订单
+     * 使用OrderSubmitDTO里面的type属性进行区分套餐和单品
      * @param jsonRequest
      * @return
      */

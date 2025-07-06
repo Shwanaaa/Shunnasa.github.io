@@ -14,7 +14,7 @@ import java.io.Serializable;
 /**
  * @Author: JM
  * @Date: 2025-06-19-23:29
- * @Description: 菜品
+ * @Description: 普通菜品
  */
 @Data
 @AllArgsConstructor
