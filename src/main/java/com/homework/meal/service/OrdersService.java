@@ -1,9 +1,11 @@
 package com.homework.meal.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.homework.meal.dto.OrderSubmitDTO;
 import com.homework.meal.po.Orders;
 import com.homework.meal.vo.MenuVO;
 import com.homework.meal.vo.OrdersVO;
+import com.homework.meal.vo.ShoppingListVO;
 
 import java.util.List;
 
@@ -19,10 +21,10 @@ public interface OrdersService extends IService<Orders> {
     void addToShoppingList(Integer mid, Integer uid, Integer type);
 
     //获取购物车清单
-    List<MenuVO> getShoppingList(int uid);
+    List<ShoppingListVO> getShoppingList(int uid);
 
     //购物车结算
-    void orderSubmit(Integer uid, List<Integer> ids);
+    void orderSubmit(Integer uid, List<OrderSubmitDTO> orderSubmitDTOS);
 
     //获取历史订单
     List<OrdersVO> getHistoryOrders(int uid);

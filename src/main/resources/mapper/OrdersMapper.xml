@@ -5,24 +5,30 @@
     <resultMap id="OrdersVOMap" type="com.homework.meal.vo.SingleOrderVO">
         <result property="createTime" column="create_time"/>
         <result property="cnt" column="cnt"/>
-        <result property="name" column="name"/>
-        <result property="price" column="price"/>
+        <result property="setMealId" column="set_meal_id"/>
+        <result property="mid" column="mid"/>
     </resultMap>
 
+<!--获取购物车清单-->
     <select id="getShoppingList" resultType="com.homework.meal.vo.MenuVO">
-        SELECT m.img, m.name, m.description, m.price, m.sales, m.type, m.id, o.cnt
+        SELECT m.id, m.name, m.price, m.type, m.description, m.sales, m.img,
+               o.cnt, o.set_meal_id
         FROM orders o
-        LEFT JOIN menu m
-        ON m.id = o.mid
-        WHERE o.uid = #{uid} AND o.status = 0 AND o.deleted_at IS NULL
+                 LEFT JOIN menu m ON m.id = o.mid
+        WHERE o.uid = #{uid}
+          AND o.status = 0
+          AND o.deleted_at IS NULL
+          AND o.mid IS NOT NULL
         ORDER BY o.gmt_modified DESC
     </select>
 
+<!--    获取历史订单-->
+<!--    先找出全部的订单包括单品和套餐-->
     <select id="getHistoryOrders" resultMap="OrdersVOMap">
-        SELECT o.gmt_modified AS create_time, o.cnt, m.name, m.price
+        SELECT o.gmt_modified AS create_time, o.cnt, o.mid, o.set_meal_id
         FROM orders o
-        JOIN menu m ON o.mid = m.id
-        WHERE o.uid = #{uid} AND o.status = 1 AND o.deleted_at IS NULL
+        JOIN user u ON o.uid = u.id
+        WHERE u.id = #{uid} AND o.status = 1 AND o.deleted_at IS NULL
         ORDER BY o.gmt_modified DESC
     </select>
 </mapper>

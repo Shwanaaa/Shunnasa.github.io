@@ -12,5 +12,14 @@ import java.util.List;
 
 @Data
 public class OrderSubmitDTO {
-    private List<Integer> ids;
+
+    /**
+     * 类型 0--单品 1--套餐
+     */
+    private Integer type;
+
+    /**
+     * 对应id
+     */
+    private Integer id;
 }

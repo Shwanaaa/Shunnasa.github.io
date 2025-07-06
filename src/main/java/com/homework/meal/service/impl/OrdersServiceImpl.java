@@ -1,16 +1,22 @@
 package com.homework.meal.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.homework.meal.dto.OrderSubmitDTO;
 import com.homework.meal.exception.ApiException;
 import com.homework.meal.mapper.MenuMapper;
+import com.homework.meal.mapper.MenuSetMapper;
 import com.homework.meal.mapper.OrdersMapper;
 import com.homework.meal.po.Menu;
+import com.homework.meal.po.MenuSet;
 import com.homework.meal.po.Orders;
 import com.homework.meal.service.OrdersService;
 import com.homework.meal.vo.MenuVO;
 import com.homework.meal.vo.OrdersVO;
+import com.homework.meal.vo.ShoppingListVO;
 import com.homework.meal.vo.SingleOrderVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,9 +24,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @Author: JM
@@ -35,6 +44,8 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     private final OrdersMapper ordersMapper;
 
     private final MenuMapper menuMapper;
+
+    private final MenuSetMapper menuSetMapper;
 
 
     /**
@@ -123,52 +134,131 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
      * @return
      */
     @Override
-    public List<MenuVO> getShoppingList(int uid) {
-        QueryWrapper<Orders> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("uid", uid);
-        List<Orders> orders = ordersMapper.selectList(queryWrapper);
-        if(orders.isEmpty()) return List.of();
+    public List<ShoppingListVO> getShoppingList(int uid) {
+        List<MenuVO> shoppingItems = ordersMapper.getShoppingList(uid);
+        List<ShoppingListVO> result = new ArrayList<>();
 
-        List<MenuVO> shoppingList = ordersMapper.getShoppingList(uid);
-        return shoppingList;
+        // 处理普通单品
+        for (MenuVO menu : shoppingItems) {
+            ShoppingListVO item = new ShoppingListVO();
+            item.setId(menu.getId());
+            item.setName(menu.getName());
+            item.setPrice(menu.getPrice());
+            item.setCnt(menu.getCnt());
+            item.setType(0);
+            item.setImg(menu.getImg());
+            result.add(item);
+        }
+
+        // 查询套餐订单（mid 为 null）
+        QueryWrapper<Orders> wrapper = new QueryWrapper<>();
+        wrapper.eq("uid", uid)
+                .eq("status", 0)
+                .isNull("deleted_at")
+                .isNull("mid")
+                .isNotNull("set_meal_id");
+        List<Orders> setMealOrders = ordersMapper.selectList(wrapper);
+
+        for (Orders order : setMealOrders) {
+            Integer setMealId = order.getSetMealId();
+            Integer cnt = order.getCnt();
+
+            // 查询套餐信息
+            MenuSet menuSet = menuSetMapper.selectById(setMealId);
+            if (menuSet == null) continue;
+
+            // 查询套餐中的菜品
+            QueryWrapper<Menu> menuWrapper = new QueryWrapper<>();
+            menuWrapper.eq("set_type", setMealId);
+            List<Menu> menus = menuMapper.selectList(menuWrapper);
+
+            List<MenuVO> menuVOList = menus.stream().map(m -> {
+                MenuVO vo = MenuVO.builder().build();
+                BeanUtil.copyProperties(m, vo);
+                return vo;
+            }).collect(Collectors.toList());
+
+            ShoppingListVO vo = new ShoppingListVO();
+            vo.setId(menuSet.getId());
+            vo.setName(menuSet.getName());
+            vo.setPrice(menuSet.getPrice());
+            vo.setCnt(cnt);
+            vo.setType(1);
+            vo.setMenuVOList(menuVOList);
+            vo.setImg(null);
+            result.add(vo);
+        }
+
+        return result;
     }
+
 
     /**
      * 购物车结算
-     * @param ids
+     * @param orderSubmitDTOS
      */
     @Transactional
     @Override
-    public void orderSubmit(Integer uid, List<Integer> ids) {
-        if (ids == null || ids.isEmpty()) return;
+    public void orderSubmit(Integer uid, List<OrderSubmitDTO> orderSubmitDTOS) {
+        if (BeanUtil.isEmpty(orderSubmitDTOS)) return;
 
-        // 1. 查询当前 uid 用户下，mid in (ids) 且 status = 0 的订单项
-        List<Orders> orderList = ordersMapper.selectList(
-                new QueryWrapper<Orders>()
-                        .eq("uid", uid)
-                        .in("mid", ids)
-                        .eq("status", 0)
-        );
+        //找出已下单的单品的id
+        List<Integer> singleMenuIds = orderSubmitDTOS.stream().filter(dto -> dto.getType() == 0)
+                .map(OrderSubmitDTO::getId).collect(Collectors.toList());
+        List<Integer> setMenuIds = orderSubmitDTOS.stream().filter(dto -> dto.getType() == 1)
+                .map(OrderSubmitDTO::getId).collect(Collectors.toList());
+
+
+
+        // 1. 查询当前 uid 用户下，mid in (singleMenuIds) 或者set_meal_id in (setMenuIds) 且 status = 0 的订单项
+        LambdaQueryWrapper<Orders> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Orders::getUid, uid)
+                .eq(Orders::getStatus, 0)
+                .and(wrapper -> {
+                    if (!singleMenuIds.isEmpty()) {
+                        wrapper.or(w -> w.in(Orders::getMid, singleMenuIds));
+                    }
+                    if (!setMenuIds.isEmpty()) {
+                        wrapper.or(w -> w.in(Orders::getSetMealId, setMenuIds));
+                    }
+                });
+
+
+        List<Orders> orderList = ordersMapper.selectList(queryWrapper);
 
         if (orderList.isEmpty()) return;
 
         // 2. 更新订单状态为已下单（status = 1）
         UpdateWrapper<Orders> wrapper = new UpdateWrapper<>();
         wrapper.eq("uid", uid)
-                .in("mid", ids)
+                .in("mid", singleMenuIds)
+                .or()
+                .in("set_meal_id", setMenuIds)
                 .set("status", 1);
         ordersMapper.update(null, wrapper);
 
         // 3. 遍历每个订单项，更新 menu 表中对应菜单的销量（sales += cnt）
         for (Orders order : orderList) {
             Integer mid = order.getMid();
+            Integer setMealId = order.getSetMealId();
             Integer cnt = order.getCnt();
 
-            UpdateWrapper<Menu> menuUpdateWrapper = new UpdateWrapper<>();
-            menuUpdateWrapper.eq("id", mid)
-                    .setSql("sales = sales + " + cnt);
+            if(mid != null){
+                UpdateWrapper<Menu> menuUpdateWrapper = new UpdateWrapper<>();
+                menuUpdateWrapper.eq("id", mid)
+                        .setSql("sales = sales + " + cnt);
+                menuMapper.update(null, menuUpdateWrapper);
+            }else{
+                QueryWrapper<Menu> queryWrapper1 = new QueryWrapper<>();
+                queryWrapper1.eq("set_type", order.getSetMealId());
+                List<Menu> menus = menuMapper.selectList(queryWrapper1);
+                for(Menu menu : menus){
+                    Integer sale = menu.getSales() + 1;
+                    menu.setSales(sale);
+                    menuMapper.updateById(menu);
+                }
+            }
 
-            menuMapper.update(null, menuUpdateWrapper);
         }
     }
 
@@ -186,15 +276,33 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
                 .collect(Collectors.groupingBy(SingleOrderVO::getCreateTime));
 
         return timeListMap.entrySet().stream()
+                //按订单生成时间进行降序排序
                 .sorted((e1, e2) -> e2.getKey().compareTo(e1.getKey()))
                 .map(
                 entry -> {
                     LocalDateTime key = entry.getKey();
                     List<SingleOrderVO> value = entry.getValue();
 
-                    double price = value.stream().mapToDouble(i -> i.getPrice() * i.getCnt()).sum();
-                    String name = value.stream().map(i -> i.getName() + "x" + i.getCnt())
+                    //如果是套餐
+                    String setMealName = value.stream().filter(v -> v.getMid() == null)
+                            .map(v -> menuSetMapper.selectById(v.getSetMealId()).getName() + "x" + v.getCnt())
                             .collect(Collectors.joining(","));
+                    double setMealPrice = value.stream().filter(i -> i.getMid() == null)
+                            .mapToDouble(i -> {
+                                MenuSet menuSet = menuSetMapper.selectById(i.getSetMealId());
+                                return menuSet.getPrice() * i.getCnt();
+                            }).sum();
+
+                    //单品与套餐价格和名字的拼接
+                    double price = value.stream().filter(i -> i.getSetMealId() == null)
+                            .mapToDouble(i -> {
+                                Menu menu = menuMapper.selectById(i.getMid());
+                                return menu.getPrice() * i.getCnt();
+                            }).sum() + setMealPrice;
+                    String name = value.stream()
+                            .filter(i -> i.getSetMealId() == null)
+                            .map(i -> menuMapper.selectById(i.getMid()).getName() + "x" + i.getCnt())
+                            .collect(Collectors.joining(",")) + "," + setMealName;
 
                     String number = key.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
 

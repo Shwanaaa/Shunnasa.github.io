@@ -1,6 +1,7 @@
 package com.homework.meal.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -9,6 +10,7 @@ import lombok.Data;
  * @Description:
  */
 @Data
+@Builder
 public class MenuVO {
     /**
      * 菜品id

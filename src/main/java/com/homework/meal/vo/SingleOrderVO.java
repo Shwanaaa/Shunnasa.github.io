@@ -26,12 +26,12 @@ public class SingleOrderVO {
     private Integer cnt;
 
     /**
-     * 订单菜品
+     * 单品id
      */
-    private String name;
+    private Integer mid;
 
     /**
-     * 价钱
+     * 套餐id
      */
-    private Double price;
+    private Integer setMealId;
 }

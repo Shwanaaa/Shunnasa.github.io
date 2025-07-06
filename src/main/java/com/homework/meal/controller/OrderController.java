@@ -13,6 +13,7 @@ import com.homework.meal.service.OrdersService;
 import com.homework.meal.vo.MenuVO;
 import com.homework.meal.dto.ShoppingCartDTO;
 import com.homework.meal.vo.OrdersVO;
+import com.homework.meal.vo.ShoppingListVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -81,10 +82,10 @@ public class OrderController extends BaseController{
      * @return
      */
     @GetMapping("/getShoppingList")
-    public JsonResponse<List<MenuVO>> getShoppingList(){
+    public JsonResponse<List<ShoppingListVO>> getShoppingList(){
         int uid = getUid();
 
-        List<MenuVO> shoppingList = ordersService.getShoppingList(uid);
+        List<ShoppingListVO> shoppingList = ordersService.getShoppingList(uid);
         return JsonResponse.success(shoppingList);
     }
 
@@ -94,13 +95,13 @@ public class OrderController extends BaseController{
      * @return
      */
     @PostMapping("/orderSubmit")
-    public JsonResponse orderSubmit(@RequestBody JsonRequest<OrderSubmitDTO> jsonRequest){
-        OrderSubmitDTO data = jsonRequest.getData();
-        List<Integer> ids = data.getIds();
-        if(ids.isEmpty()) throw new ApiException("提交的订单为空！");
+    public JsonResponse orderSubmit(@RequestBody JsonRequest<List<OrderSubmitDTO>> jsonRequest){
+        List<OrderSubmitDTO> data = jsonRequest.getData();
+
+        if(data.isEmpty()) throw new ApiException("提交的订单为空！");
 
         int uid = getUid();
-        ordersService.orderSubmit(uid, ids);
+        ordersService.orderSubmit(uid, data);
 
         return JsonResponse.success("订单提交成功！");
     }
